@@ -1,0 +1,16 @@
+  <dialog id="sourcesDialog" aria-labelledby="sourcesTitle">
+    <div class="dialog-inner">
+      <div class="dialog-top"><h2 id="sourcesTitle">数据与模型边界</h2><button type="button" id="bCloseSources" aria-label="关闭数据与来源">关闭 ×</button></div>
+      <h3>有来源的基本信息</h3>
+      <p>赵州桥又名安济桥。赵县人民政府记载其建于隋开皇后期至大业初年（595—605），由李春设计建造；主拱净跨 37.02 m、拱矢 7.23 m，由 28 道拱券沿桥宽并列。桥面宽 9 m，拱脚附近宽 9.6 m。四个敞肩小拱中，靠桥堍两孔净跨 3.81 m，近桥中两孔跨度 2.85 m。</p>
+      <p><a href="https://www.zhaoxian.gov.cn/columns/7558c04f-250e-4c72-a91c-425e1b5a8a17/202306/26/9c718990-9c93-471a-9e27-20c31de59149.html" target="_blank" rel="noopener noreferrer">[1] 赵县人民政府 · 赵州桥</a></p>
+      <p>ASCE 的工程遗产介绍指出：小拱将桥面荷载传给主拱，敞肩在洪水时也能提供一部分过水空间。</p>
+      <p><a href="https://www.asce.org/about-civil-engineering/history-and-heritage/historic-landmarks/zhaozhou-bridge" target="_blank" rel="noopener noreferrer">[2] 美国土木工程师学会 · Zhaozhou Bridge</a></p>
+      <h3>地点、需求与桥型比较</h3><p>桥位于河北省石家庄市赵县洨河上。地图轮廓采用阿里云 DataV 的现代行政区 GeoJSON，经简化与统一投影，仅作当代位置定位；桥址坐标参考 OpenStreetMap。地图不是隋代行政图，河岸三维场景不是实测地形。</p><p>“为什么需要跨河”呈现桥梁连接两岸的一般需求；现有材料未直接说明隋代具体的建桥委托、渡口与道路。梁、多孔拱、单孔拱是教学概念对照，不是李春曾比较过的方案记录，也不据此计算承载能力或洪水增益。</p><p><a href="https://datav.aliyun.com/portal/school/atlas/area_selector" target="_blank" rel="noopener noreferrer">[3] 阿里云 DataV · 现代行政区轮廓</a>　<a href="https://www.openstreetmap.org/#map=15/37.720229/114.763280" target="_blank" rel="noopener noreferrer">[4] OpenStreetMap · 桥址定位</a></p><h3>计算值与示意值</h3>
+      <p>以净跨和拱矢反算圆弧，半径约 27.309 m，圆心角约 85.34°，矢跨比 7.23 / 37.02 ≈ 0.195。这些是模型推导值。主拱厚 1.02 m 来自所给参考文档转引，尚未独立核对原书；小拱拱高、铺装厚度、河床、构件位置与装饰为示意，逐券、逐孔建构表现模型的组装逻辑，不是隋代施工顺序；展开券道的间距被放大，传力线只表示路径，不表示实际应力大小。镜头穿过敞肩开口和拱腹空间，桥面透视仅供观察。</p>
+      <h3>桥长的口径尚未查清</h3>
+      <p>赵县政府公布总长 64.4 m；ASCE 记载 167 ft（约 50.9 m）。模型沿用参考材料的 50.82 m 作为示意范围。现有材料不足以确认差异来自引桥还是其他测量边界，因此这里不把任何一种解释写成定论。</p>
+      <p class="stamp">资料核验：2026-10-19 · 完整台账随页面附于《参考文档.md》</p>
+    </div>
+      <p style="margin:0 30px 25px;font-size:10px;color:var(--muted)">Three.js r186.1 · Copyright 2010–2026 Three.js Authors · MIT License。引擎已内嵌，页面不请求外部脚本或地图服务。</p>
+  </dialog>
