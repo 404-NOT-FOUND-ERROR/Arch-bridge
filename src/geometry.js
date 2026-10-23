@@ -1,15 +1,15 @@
       // ---------- 铅笔排线着色器 ----------
       const VS = `#include <common>
 #include <clipping_planes_pars_vertex>
-attribute float aBuild;uniform float uProg;varying float vT,vWY;attribute vec3 aCol;varying vec3 vCol;
-varying vec3 vN;
-void main(){vN=normalize(mat3(modelMatrix)*normal);vCol=aCol;float t=clamp((uProg-aBuild)/.07,0.,1.);vT=t;vec3 p=position;float e=1.-t;p.y+=e*e*3.2;
-vec4 wp=modelMatrix*vec4(p,1.0);vWY=wp.y;vec4 mvPosition=viewMatrix*wp;gl_Position=projectionMatrix*mvPosition;
+attribute float aBuild,aSequence;uniform float uProg,uSequence;varying float vT,vWY;attribute vec3 aCol;varying vec3 vCol;
+varying vec3 vN,vWorld;
+void main(){vN=normalize(mat3(modelMatrix)*normal);vCol=aCol;float t=clamp((uProg-mix(aBuild,aSequence,uSequence))/.07,0.,1.);vT=t;vec3 p=position;float e=1.-t;p.y+=e*e*3.2;
+vec4 wp=modelMatrix*vec4(p,1.0);vWorld=wp.xyz;vWY=wp.y;vec4 mvPosition=viewMatrix*wp;gl_Position=projectionMatrix*mvPosition;
 #include <clipping_planes_vertex>
 }`;
       const FS = `#include <common>
 #include <clipping_planes_pars_fragment>
-uniform float uOpacity,uLocalWash;uniform vec3 uLight,uInk,uPaper;uniform float uTone,uBoil,uDPR,uOpen,uGrow,uIsGrow,uHang,uIsHang,uWash,uWashY;varying vec3 vN,vCol;varying float vT,vWY;
+uniform float uOpacity,uLocalWash,uSurface,uTime,uFocus,uSequence;uniform vec3 uLight,uInk,uPaper,uWater;uniform float uTone,uBoil,uDPR,uOpen,uGrow,uIsGrow,uHang,uIsHang,uWash,uWashY;varying vec3 vN,vCol,vWorld;varying float vT,vWY;
 float h21(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x),mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x),f.y);}
 float hl(vec2 c,float a,float sp,float w){vec2 d=vec2(cos(a),sin(a));float t=dot(c,vec2(-d.y,d.x))/sp;t+=(vn(c*.035)-.5)*.9+(fract(uBoil*.618)-.5)*.10;
@@ -31,19 +31,39 @@ void main(){
     float front=(1.-smoothstep(0.,1.6,abs(vWY-wy)))*step(uWashY,500.);
     vec3 wc=vCol*mix(.76,1.05,lum)*(1.-.22*front)*(.985+.03*vn(c*1.3));if(back&&uOpen<.5)wc*=.85;
     base=mix(base,wc,clamp(d,0.,1.)*.74);}
-  vec3 col=mix(base,uInk,ink);gl_FragColor=vec4(col,uOpacity);}`;
-      function hatchMat(tone, { open = 0, red = false, noclip = false, hang = false } = {}) {
+  vec3 col=mix(base,uInk,ink);
+  if(uSurface>.5&&uSurface<1.5){
+    float soil=vn(vWorld.xz*.19),tone=.90+.10*dif;
+    col=mix(uPaper,vCol*tone,(.39+.16*soil)*max(uWash,uSequence)*uLocalWash);
+    col=mix(col,uInk,ink*.10);
+  }
+  if(uSurface>1.5){
+    vec2 p=vWorld.xz;float drift=uTime*.55;
+    float broad=vn(vec2(p.x*.26,p.y*.12-drift*.13));
+    float bend=vn(p*.13+vec2(0.,-drift*.03));
+    float ripple=sin(p.y*2.7+p.x*.18-drift*1.4+bend*6.);
+    float glint=smoothstep(.90,.998,ripple)*smoothstep(.39,.70,vn(vec2(p.x*.72,p.y*.42)));
+    float threads=smoothstep(.97,.999,sin(p.y*7.1+p.x*.45-drift*2.1+bend*8.))*smoothstep(.62,.84,vn(p*.8));
+    vec3 water=mix(uWater*.79,uWater*1.13,broad);
+    col=mix(uPaper,water,(.58+.13*broad)*max(uWash,uSequence)*uLocalWash);
+    col=mix(col,uPaper,glint*.30+threads*.13);
+    float shore=smoothstep(15.0,19.5,abs(p.x));col=mix(col,uPaper,shore*.17);
+  }
+  col=mix(col,mix(vCol,vec3(.69,.36,.23),.48),uFocus*.25);
+  if(uSurface>.5){float fade=1.-smoothstep(17.,36.,abs(vWorld.z));fade*=1.-smoothstep(33.,49.,abs(vWorld.x));col=mix(uPaper,col,fade);}
+  gl_FragColor=vec4(col,uOpacity);}`;
+      function hatchMat(tone, { open = 0, red = false, noclip = false, hang = false, surface = 0 } = {}) {
         return new THREE.ShaderMaterial({
           vertexShader: VS, fragmentShader: FS, side: THREE.DoubleSide, clipping: true,
           clippingPlanes: noclip ? null : [clip], polygonOffset: true, polygonOffsetFactor: 1.5, polygonOffsetUnits: 2,
-          uniforms: { uLocalWash:{value:1},uWash: U.wash, uWashY: U.washY, uHang: U.hang, uIsHang: { value: hang ? 1 : 0 }, uLight: U.light, uInk: hang ? U.shinCol : red ? U.red : U.ink, uPaper: U.paper, uTone: { value: tone }, uBoil: U.boil, uDPR: U.dpr, uOpen: { value: open }, uProg: U.prog, uGrow: U.grow, uIsGrow: { value: red && !hang ? 1 : 0 } }
+          uniforms: { uSequence:U.sequence,uTime:U.time,uWater:U.water,uSurface:{value:surface},uFocus:{value:0},uLocalWash:{value:1},uWash: U.wash, uWashY: U.washY, uHang: U.hang, uIsHang: { value: hang ? 1 : 0 }, uLight: U.light, uInk: hang ? U.shinCol : red ? U.red : U.ink, uPaper: U.paper, uTone: { value: tone }, uBoil: U.boil, uDPR: U.dpr, uOpen: { value: open }, uProg: U.prog, uGrow: U.grow, uIsGrow: { value: red && !hang ? 1 : 0 } }
         });
       }
       const LVS = `#include <common>
 #include <clipping_planes_pars_vertex>
-uniform float uSeed,uAmp,uBoil,uProg,uOver;attribute float aBuild;attribute vec3 aOther;varying float vFade;varying float vT,vWY;
+uniform float uSeed,uAmp,uBoil,uProg,uOver,uSequence;attribute float aBuild,aSequence;attribute vec3 aOther;varying float vFade;varying float vT,vWY;
 float h(vec3 p){return fract(sin(dot(p,vec3(12.9898,78.233,37.719)))*43758.5453);}
-void main(){vec3 p=position;vec3 q=p*1.37+uSeed;vec3 dd=position-aOther;float ll=length(dd);if(ll>1e-4)p+=dd/ll*min(uOver,ll*.22)*(.3+h(q+5.3));p+=(vec3(h(q),h(q+11.3),h(q+27.1))-.5)*uAmp;p+=(vec3(h(q+uBoil),h(q+uBoil+8.1),h(q+uBoil+17.3))-.5)*uAmp*.24;float t=clamp((uProg-aBuild)/.07,0.,1.);vT=t;float e=1.-t;p.y+=e*e*3.2;vec4 wp=modelMatrix*vec4(p,1.);vWY=wp.y;
+void main(){vec3 p=position;vec3 q=p*1.37+uSeed;vec3 dd=position-aOther;float ll=length(dd);if(ll>1e-4)p+=dd/ll*min(uOver,ll*.22)*(.3+h(q+5.3));p+=(vec3(h(q),h(q+11.3),h(q+27.1))-.5)*uAmp;p+=(vec3(h(q+uBoil),h(q+uBoil+8.1),h(q+uBoil+17.3))-.5)*uAmp*.24;float t=clamp((uProg-mix(aBuild,aSequence,uSequence))/.07,0.,1.);vT=t;float e=1.-t;p.y+=e*e*3.2;vec4 wp=modelMatrix*vec4(p,1.);vWY=wp.y;
 vec4 mvPosition=modelViewMatrix*vec4(p,1.0);vFade=clamp(105./max(1.,-mvPosition.z),.3,1.);mvPosition.xyz*=.9988;gl_Position=projectionMatrix*mvPosition;
 #include <clipping_planes_vertex>
 }`;
@@ -57,7 +77,7 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
       function lineMat(seed, alpha, amp, { red = false, noclip = false, over = 0, hang = false, wl = false } = {}) {
         return new THREE.ShaderMaterial({
           vertexShader: LVS, fragmentShader: LFS, transparent: true, depthWrite: false, clipping: true,
-          clippingPlanes: noclip ? null : [clip], uniforms: { uLocalWash:{value:1},uLineK: U.lineK, uWash: U.wash, uWashY: U.washY, uWL: { value: wl ? 1 : 0 }, uOver: { value: over }, uSeed: { value: seed }, uAmp: { value: amp }, uBoil: U.boil, uInk: hang ? U.shinCol : red ? U.red : U.ink, uAlpha: { value: alpha }, uProg: U.prog, uGrow: U.grow, uIsGrow: { value: red && !hang ? 1 : 0 }, uHang: U.hang, uIsHang: { value: hang ? 1 : 0 } }
+          clippingPlanes: noclip ? null : [clip], uniforms: { uSequence:U.sequence,uLocalWash:{value:1},uLineK: U.lineK, uWash: U.wash, uWashY: U.washY, uWL: { value: wl ? 1 : 0 }, uOver: { value: over }, uSeed: { value: seed }, uAmp: { value: amp }, uBoil: U.boil, uInk: hang ? U.shinCol : red ? U.red : U.ink, uAlpha: { value: alpha }, uProg: U.prog, uGrow: U.grow, uIsGrow: { value: red && !hang ? 1 : 0 }, uHang: U.hang, uIsHang: { value: hang ? 1 : 0 } }
         });
       }
 
@@ -110,9 +130,9 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
       }
 
       function merge(list) {
-        const ng = list.map(g => ({ g: g.index ? g.toNonIndexed() : g, b: g.userData.rec.b, c: g.userData.col || QINGSHI, k: g.userData.k })); let n = 0; ng.forEach(({ g }) => n += g.attributes.position.count);
-        const P = new Float32Array(n * 3), N = new Float32Array(n * 3), B = new Float32Array(n), K = new Float32Array(n * 3); let o = 0; for (const { g, b, c: col, k } of ng) {
-          const c = g.attributes.position.count, pa = g.attributes.position.array; P.set(pa, o * 3); N.set(g.attributes.normal.array, o * 3); B.fill(b, o, o + c); for (let i = o; i < o + c; i++) { K[i * 3] = col.r; K[i * 3 + 1] = col.g; K[i * 3 + 2] = col.b; }
+        const ng = list.map(g => ({ g: g.index ? g.toNonIndexed() : g, b: g.userData.rec.b, sequence:g.userData.rec.sequence,c: g.userData.col || QINGSHI, k: g.userData.k })); let n = 0; ng.forEach(({ g }) => n += g.attributes.position.count);
+        const P = new Float32Array(n * 3), N = new Float32Array(n * 3), B = new Float32Array(n), S = new Float32Array(n), K = new Float32Array(n * 3); let o = 0; for (const { g, b, sequence,c: col, k } of ng) {
+          const c = g.attributes.position.count, pa = g.attributes.position.array; P.set(pa, o * 3); N.set(g.attributes.normal.array, o * 3); B.fill(b, o, o + c); S.fill(sequence,o,o+c);for (let i = o; i < o + c; i++) { K[i * 3] = col.r; K[i * 3 + 1] = col.g; K[i * 3 + 2] = col.b; }
           if (k) {
             const ar = []; for (let t = 0; t < c / 3; t++) {
               const j = t * 9, ax = pa[j + 3] - pa[j], ay = pa[j + 4] - pa[j + 1], az = pa[j + 5] - pa[j + 2], bx = pa[j + 6] - pa[j], by = pa[j + 7] - pa[j + 1], bz = pa[j + 8] - pa[j + 2];
@@ -121,15 +141,18 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
             if (mx / mn > 2.2) ar.forEach((a, t) => { if (a <= mn * 1.05) for (let v = 0; v < 3; v++) { const i = o + t * 3 + v; K[i * 3] = JIN.r; K[i * 3 + 1] = JIN.g; K[i * 3 + 2] = JIN.b; } });
           } o += c;
         }
-        const r = new THREE.BufferGeometry(); r.setAttribute('position', new THREE.BufferAttribute(P, 3)); r.setAttribute('normal', new THREE.BufferAttribute(N, 3)); r.setAttribute('aBuild', new THREE.BufferAttribute(B, 1)); r.setAttribute('aCol', new THREE.BufferAttribute(K, 3)); return r;
+        const r = new THREE.BufferGeometry(); r.setAttribute('position', new THREE.BufferAttribute(P, 3)); r.setAttribute('normal', new THREE.BufferAttribute(N, 3)); r.setAttribute('aBuild', new THREE.BufferAttribute(B, 1));r.setAttribute('aSequence',new THREE.BufferAttribute(S,1)); r.setAttribute('aCol', new THREE.BufferAttribute(K, 3)); return r;
       }
       function mergeL(list) {
-        let n = 0; list.forEach(({ a }) => n += a.length); const P = new Float32Array(n), B = new Float32Array(n / 3); let o = 0; for (const { a, rec } of list) { P.set(a, o); B.fill(rec.b, o / 3, (o + a.length) / 3); o += a.length; }
+        let n = 0; list.forEach(({ a }) => n += a.length); const P = new Float32Array(n), B = new Float32Array(n / 3),S=new Float32Array(n/3); let o = 0; for (const { a, rec } of list) { P.set(a, o); B.fill(rec.b, o / 3, (o + a.length) / 3);S.fill(rec.sequence,o/3,(o+a.length)/3); o += a.length; }
         const O = new Float32Array(n); for (let i = 0; i < n; i += 6) { O[i] = P[i + 3]; O[i + 1] = P[i + 4]; O[i + 2] = P[i + 5]; O[i + 3] = P[i]; O[i + 4] = P[i + 1]; O[i + 5] = P[i + 2]; }
-        const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(P, 3)); g.setAttribute('aBuild', new THREE.BufferAttribute(B, 1)); g.setAttribute('aOther', new THREE.BufferAttribute(O, 3)); return g;
+        const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(P, 3)); g.setAttribute('aBuild', new THREE.BufferAttribute(B, 1));g.setAttribute('aSequence',new THREE.BufferAttribute(S,1)); g.setAttribute('aOther', new THREE.BufferAttribute(O, 3)); return g;
       }
       function finalize() {
         const group=new THREE.Group(), parts={};
+        // The landing film reuses the reference's explicit k ordering across all parts.
+        // Keep landscape visible while the bridge is drawn, built and washed.
+        for(const rec of recs)rec.sequence=['terrain','water','guides'].includes(rec.part)?-1:Math.max(0,Math.min(.92,(rec.k+3.65)/4.18*.92));
         // aBuild and uProg both use 0..1. Reserve the final .07 for settling,
         // so every face and stroke is fully formed at progress = 1.
         const normalizePart = records => {
@@ -148,7 +171,7 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
           const add=(obj)=>{obj.material.uniforms.uProg=uniforms.progress;obj.material.uniforms.uOpacity=uniforms.opacity;obj.material.uniforms.uLocalWash=uniforms.wash;obj.material.transparent=true;node.add(obj);parts[part].meshes.push(obj);};
           for(const [name,list] of Object.entries(G)) {
             const chosen=list.filter(g=>g.userData.rec.part===part);if(!chosen.length)continue;
-            add(new THREE.Mesh(merge(chosen),hatchMat(name==='ground'?-.14:name==='deck'?-.02:0,{open:['ground','water','deck'].includes(name)?1:0})));
+            add(new THREE.Mesh(merge(chosen),hatchMat(name==='ground'?-.14:name==='deck'?-.02:0,{surface:name==='ground'?1:name==='water'?2:0,open:['ground','water','deck'].includes(name)?1:0})));
           }
           for(const [name,list] of Object.entries(L)) {
             const chosen=list.filter(l=>l.rec.part===part);if(!chosen.length)continue;
@@ -195,26 +218,39 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
         const AXa = (a, r) => r * Math.sin(a);
 
         // ---------- 河床与两岸：F10 视觉示意，非实测地形 ----------
-        PART='terrain';PAINT = ZHESHI;
-        surf('ground', (u, v) => V(-46 + u * 92, -4.62, -13 + v * 26), 22, 3, -8.5);
-        PART='water';PAINT = SHUI;
-        surf('water', (u, v) => V(-21 + u * 42, -3.55, -13 + v * 26), 26, 3, -8.3, 'water');
-        for (let x = -20; x < 20; x += 1.6) { const p = []; for (let v = -12; v <= 12; v += 3.4) p.push(V(x, -3.55, v)); lines('water', p, false, -8.3); }
-        PART='terrain';
-        for (const sgn of [-1, 1]) {
-          PAINT = C('#ab9270');
-          surf('ground', (u, v) => V(sgn * (TX + u * 16), 7.2 - u * 5.6, -7 + v * 14), 12, 2, -8.0,undefined,sgn<0);
-          surf('ground',(u,v)=>V(sgn*TX,-4.62+v*11.82,-7+u*14),8,8,-8.0,undefined,sgn>0);
-          for (const zs of [-1, 1]) surf('ground', (u, v) => { const y0 = 7.2 - u * 5.6; return V(sgn * (TX + u * 16), y0 + v * (-4.62 - y0), zs * 7); }, 12, 2, -8.0,undefined,sgn!==zs);
-          surf('ground', (u, v) => V(sgn * (TX + 16), 1.6 + v * (-6.22), -7 + u * 14), 2, 2, -8.0,undefined,sgn<0);
-          for (let y = -4; y < 6.8; y += .9) { const p = []; for (let z = -6.6; z <= 6.6; z += 1.8) p.push(V(sgn * (TX + Math.max(0, (7.2 - y) / 5.6) * 16), y, z)); lines('ink', p, false, -8.0); }
+        const soften=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
+        const riverCentre=z=>1.7*Math.sin(z*.052)+.45*Math.sin(z*.19);
+        const bankHeight=(x,z)=>{
+          const a=Math.abs(x-riverCentre(z)),edge=17.7+.7*Math.sin(z*.11);
+          const low=-4.7+7.9*soften((a-edge)/12.5);
+          const road=Math.exp(-Math.pow(z/7.7,4))*soften((a-19.3)/(TX-19.3))*(1-soften((a-32)/18));
+          return low+Math.max(0,deckY(TX)-.12-low)*road+.11*Math.sin(x*.7+z*.43)*soften((a-20)/8);
+        };
+        PART='terrain';PAINT=C('#b7ae8e');
+        for(const side of [-1,1]){
+          surf('ground',(u,v)=>{const z=-47+v*94,x=riverCentre(z)+side*(15+u*37);return V(x,bankHeight(x,z),z);},64,100,-8.5,undefined,side<0);
+          // Sand shelves trace the waterline; the paper edge has no cutaway box.
+          PAINT=C('#c5b796');
+          surf('ground',(u,v)=>{const z=-35+v*70,x=riverCentre(z)+side*(18.5+u*4+.55*Math.sin(z*.13));return V(x,bankHeight(x,z)+.018,z);},10,90,-8.4,undefined,side<0);
+          PAINT=C('#bdb399');
+          surf('ground',(u,v)=>{const x=side*(TX+u*25),z=(v*2-1)*(4.65+u*1.0);return V(x,bankHeight(x,z)+.035,z);},55,8,-8.1,undefined,side<0);
+          // Sparse bent reeds, all anchored to the bank surface.
+          for(let i=0;i<75;i++){
+            const noise=n=>{const q=Math.sin(n*127.1+side*79.3)*43758.5453;return q-Math.floor(q);};
+            const z=-29+58*noise(i+3),x=riverCentre(z)+side*(23+13*noise(i+97)),y=bankHeight(x,z);
+            if(Math.abs(z)<7.6||y<-.8)continue;
+            for(let j=0;j<3;j++){const lean=(j-1)*.16,h=.22+.28*((i*.73+j*.37)%1);lines('water',[V(x,y+.03,z),V(x+lean*.45,y+h*.7,z+.07),V(x+lean,y+h,z+.16)],false,-8.0);}
+          }
+          PAINT=C('#b7ae8e');
         }
+        PART='water';PAINT=SHUI;
+        surf('water',(u,v)=>{const z=-47+v*94;return V(riverCentre(z)+(u*2-1)*27,-3.55,z);},54,130,-8.3,'water');
 
         // ---------- 主拱 28 道拱券（纵向并列砌筑） ----------
         for (let i = 0; i < NRIB; i++) {
           PART='rib-'+i;
-          // Begin on the camera-facing side; this is the model's teaching sequence.
-          const k = -3 + i * .08, v0 = 1 - (i + 1) / NRIB*2, v1 = 1 - i / NRIB*2;
+          // Build from the far bank-width edge towards the viewer.
+          const k = -3 + i * .08, v0 = -1 + i / NRIB*2+.001, v1 = -1 + (i+1) / NRIB*2-.001;
           const nj=45;
           for(let j=0;j<nj;j++){
             const a0=-TH+j/nj*TH*2,a1=-TH+(j+1)/nj*TH*2,order=1-Math.abs((j+.5)/nj*2-1);
@@ -238,15 +274,18 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
           PAINT = MO; box('panel', 0, 0, 0, .32, .19, .07, true, kFace + .02);
           FACE = new THREE.Matrix4();
         }
-        // 护拱石（拱背石层，厚约 0.5m）
+        // Bound every upper surface by the deck underside, including ties.
+        // The reference's fixed radial offsets pierced the crown paving.
+        const coverTop=x=>Math.min(eTop(x)+.20,deckY(x)-DECKT-.055);
         PART='cover';PAINT = QINGSHI3;
-        surf('stone', (u, v) => { const a = -TH + u * 2 * TH, r = R + THICK + .25; const x = AXa(a, r), y = AY(a, r); return V(x, y, (v - .5) * 2 * Wh(x)); }, 40, 1, -1.5);
-        for (const sgn of [-1, 1]) surf('stone', (u, v) => { const a = -TH + u * 2 * TH, r = R + THICK + v * .5; const x = AXa(a, r), y = AY(a, r); return V(x, y, sgn * Wh(x)); }, 40, 1, -1.5,undefined,sgn>0);
+        const coverX=(R+THICK)*Math.sin(TH);
+        surf('stone',(u,v)=>{const x=-coverX+u*coverX*2;return V(x,coverTop(x),(v*2-1)*(Wh(x)-.035));},100,3,-1.5);
+        for(const side of [-1,1])surf('stone',(u,v)=>{const x=-coverX+u*coverX*2;return V(x,eTop(x)+(coverTop(x)-eTop(x))*v,side*(Wh(x)-.035));},100,1,-1.5,undefined,side>0);
         // 主拱背 5 道铸铁拉杆
         PAINT = MO;
         for (const a of [-.38, -.19, 0, .19, .38]) {
-          const r = R + THICK + .55, x = AXa(a, r), y = AY(a, r);
-          beam('panel', V(x, y, -Wh(x)), V(x, y, Wh(x)), .18, .16, false, -1.35);
+          const x=AXa(a,R+THICK),y=Math.min(coverTop(x)-.025,deckY(x)-DECKT-.09);
+          beam('panel', V(x, y, -Wh(x)+.08), V(x, y, Wh(x)-.08), .14, .10, false, -1.35);
         }
 
         // ---------- 敞肩小拱 ×4 ----------
@@ -255,14 +294,14 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
           PART='small-'+SMALL.length;
           const half = span / 2;
           const ys = Math.max(eTop(cx - half), eTop(cx + half)) + .06;
-          const f = Math.min(half, Math.max(.5, deckY(cx) - .15 - ys - ringT));
+          const f = Math.min(half, Math.max(.5, deckY(cx) - DECKT - .08 - ys - ringT));
           const Rs = (half * half + f * f) / (2 * f), Cys = ys + f - Rs, aM = Math.asin(half / Rs);
           const NJs = Math.max(8, Math.round(Rs * 2 * aM / .85));
           for(let j=0;j<NJs;j++){
             PAINT=j%2?QINGSHI:QINGSHI2;
             archStone(cx,Cys,Rs,ringT,-aM+j/NJs*aM*2,-aM+(j+1)/NJs*aM*2,-1,1,Wh,k+(1-Math.abs((j+.5)/NJs*2-1))*.12,'stone');
           }
-          SMALL.push({ cx, half, ys, Rs, Cys });
+          SMALL.push({ cx, half, ys, Rs, Cys,ringT });
           return { cx, span, ys, f, Rs, aM, Cys };
         }
         const S1 = smallArch(10.60, 2.85, .42, -.62);
@@ -270,7 +309,7 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
         const S3 = smallArch(-10.60, 2.85, .42, -.62);
         const S4 = smallArch(-15.90, 3.81, .50, -.58);
         const insideSmall = (x, y) => {
-          for (const S of SMALL) { const d = x - S.cx; if (Math.abs(d) <= S.half && y <= S.Cys + Math.sqrt(Math.max(0, S.Rs * S.Rs - d * d))) return true; }
+          for(const S of SMALL){const d=x-S.cx,r=S.Rs+S.ringT+.012,half=Math.sqrt(Math.max(0,r*r-Math.pow(S.ys-S.Cys,2)));if(Math.abs(d)<=half&&y<=S.Cys+Math.sqrt(Math.max(0,r*r-d*d)))return true;}
           return false;
         };
 
@@ -304,7 +343,8 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
           wallFace(x0,x1,-3.62);
           // Close the supports for the assembly view; shapes remain F10 teaching geometry.
           for(const [x,flip] of [[x0,true],[x1,false]])surf('stone',(u,v)=>V(x,wallBot(x)+(deckY(x)-DECKT-wallBot(x))*v,(u*2-1)*Wh(x)),2,12,-3.48,undefined,flip);
-          surf('stone',(u,v)=>{const x=x0+(x1-x0)*u;return V(x,deckY(x)-DECKT,(v*2-1)*Wh(x));},16,2,-3.42);
+          // A recessed support cap closes the construction view without z-fighting.
+          surf('stone',(u,v)=>{const x=x0+(x1-x0)*u;return V(x,deckY(x)-DECKT-.025,(v*2-1)*Wh(x));},32,2,-3.42);
           surf('stone',(u,v)=>{const x=x0+(x1-x0)*u;return V(x,wallBot(x),(v*2-1)*Wh(x));},16,2,-3.62,undefined,true);
         }
         PART='fill';PAINT=QINGSHI2;wallFace(-HALF, HALF, -.42);
@@ -343,13 +383,12 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
         for (let i = 0; i < NP; i++) {
           const x0 = -TX + i * SP + .20, x1 = -TX + (i + 1) * SP - .20;
           for (const sgn of [-1, 1]) {
-            const NSEG = 6;
-            for (let s = 0; s < NSEG; s++) {
-              const xa = x0 + (x1 - x0) * s / NSEG, xb = x0 + (x1 - x0) * (s + 1) / NSEG, xm = (xa + xb) / 2;
-              PAINT = QINGSHI2;
-              box('panel', xm, deckY(xm) + CAMB * .6 + .58, sgn * (Wh(xm) - .24), xb - xa + .02, .76, .14, true, kPanel);
-              PAINT = QINGSHI3;
-              box('panel', xm, deckY(xm) + CAMB * .6 + .11, sgn * (Wh(xm) - .20), xb - xa + .02, .22, .24, true, kBase);
+            // One sloping panel per bay; adjacent little boxes used to overlap.
+            for(const [lo,hi,offset,thick,col,k] of [[.20,.96,.24,.14,QINGSHI2,kPanel],[0,.22,.20,.24,QINGSHI3,kBase]]){
+              PAINT=col;
+              const pts=[];for(const x of [x0,x1])for(const [h,d] of [[lo,-1],[lo,1],[hi,1],[hi,-1]])pts.push(V(x,deckY(x)+h,sgn*(Wh(x)-offset)+d*thick/2));
+              const pos=[];for(const q of [[0,3,2,1],[4,5,6,7],[0,1,5,4],[3,7,6,2],[0,4,7,3],[1,2,6,5]])for(const n of [q[0],q[2],q[1],q[0],q[3],q[2]])pos.push(...pts[n].toArray());
+              const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.computeVertexNormals();place(geo,'panel',true,'ink',k);
             }
             // 蟠龙浮雕（墨线）
             const p = []; for (let j = 0; j <= 30; j++) {
@@ -394,7 +433,7 @@ gl_FragColor=vec4(uInk,uOpacity*uAlpha*vT*vFade*mix(mix(1.,uLineK,uLocalWash),uW
         const f = finalize();
         return {
           group: f.group, parts:f.parts, KEYS: f.KEYS, topY: DECK, SH_B: 0, SH_T: 0,
-          PMAX: 1.12, BUILD_S: 30,geometry:{SPAN,RISE,NRIB,R,CY,TH,SMALL,Wh,eTop,deckY},
+          PMAX: 1.12, BUILD_S: 30,geometry:{SPAN,RISE,NRIB,R,CY,TH,THICK,DECKT,SMALL,Wh,eTop,deckY,coverTop,bankHeight},
           big: '安濟橋', name: '赵州桥',
           dd: ['安济桥 立体石构図', '单孔敞肩圆弧石拱　28道拱券纵向并列', '铅笔排线 · 中国传统设色'],
           clipN: V(0, 0, -1), clipMax: 6.2,

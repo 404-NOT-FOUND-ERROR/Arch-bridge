@@ -6,18 +6,18 @@
   const reduceQuery=matchMedia('(prefers-reduced-motion: reduce)');
   const mapData=/* MAP_DATA */;
   const chapters=[
-    {name:'地理',index:'第一章 · 沿图寻桥',title:'一座石桥，为什么长成这样？',copy:'一个平缓的大拱，肩上又开出四孔。先记住这个形状：接下来的20秒，我们从整桥回到地图，再落到洨河两岸，追问一座桥怎样连接这里。',metrics:[['一孔','','主拱跨过河道'],['四孔','','小拱留在桥肩']],source:'桥形据赵县人民政府；地景、河岸与镜头衔接为教学示意。',next:'走到河边 →',duration:20},
-    {name:'跨河',index:'第二章 · 先有跨越',title:'两岸之间，缺一条路。',copy:'站在河边，桥的任务变得直观：让两岸连续通行。跨越空间、河道开敞与两端支承，都是理解一座桥时要先看的条件。',metrics:[['连接','','两岸的通行需求'],['开敞','','桥下的河道空间']],source:'河岸、河床和水位为教学示意。隋代具体道路、渡口与建桥委托，现有材料未能直接证实。',next:'比较桥型 →',duration:11},
-    {name:'选型',index:'第三章 · 结构的选择',title:'同样跨河，可以怎样搭？',copy:'梁直接跨越，以弯曲承受荷载；多孔拱把跨度分成几段，增加河中支点；单孔拱让一个大孔跨过河道，把荷载传向两端。试着切换，观察支承位置。',metrics:[['支点','','放在河中，还是两岸'],['传力','','梁与拱，各有路径']],source:'桥型为同一跨越范围的概念对照，参照 PBS NOVA。这里解释现存结构，未还原李春的历史选型过程。',next:'开始建主拱 →',duration:13},
-    {name:'主拱',index:'第四章 · 一弧跨河',title:'先把这一道大拱，搭起来。',copy:'赵州桥主拱的净跨为37.02米，拱矢为7.23米。它是一段平缓圆弧。沿桥宽把28道拱券依次并排，主拱才成为我们眼前的整体。',metrics:[['37.02','m','主拱净跨'],['7.23','m','主拱拱矢']],source:'净跨、拱矢、28道拱券据赵县人民政府。逐道显现是模型分解顺序，不是隋代施工记录。',next:'看桥肩留空 →',duration:17},
-    {name:'敞肩',index:'第五章 · 肩上留空',title:'桥肩，不必全部填满。',copy:'在主拱两端的桥肩，各有两孔小拱。让四孔逐一成形，再沿桥侧掠过孔口：敞开的桥肩，让桥体结构与河道空间彼此可见。',metrics:[['3.81','m','靠桥堍两孔 · 净跨'],['2.85','m','近桥中两孔 · 跨度']],source:'孔数与跨度据赵县人民政府；ASCE说明敞肩在洪水时可提供部分过水空间。小拱高度和位置含示意。',next:'跟随传力路径 →',duration:15},
-    {name:'传力',index:'第六章 · 从桥面到两岸',title:'人走在上面，力去往哪里？',copy:'补上拱上结构、桥面和栏杆。桥面荷载经小拱传到主拱，再由主拱传向两端支承。循着朱色路径，向下看懂桥面与拱之间的联系。',metrics:[['桥面 → 小拱','','上部荷载向下传递'],['主拱 → 两端','','沿拱走向支承']],source:'小拱将桥面荷载传给主拱，参照ASCE。箭线为路径示意，透明观察不表示应力大小或实际分配比例。',next:'穿入拱腹 →',duration:17},
-    {name:'穿行',index:'第七章 · 横向穿行',title:'一孔大拱，二十八道券。',copy:'从桥侧看，主拱是一道弧；沿桥宽看，它由28道券并列。暂时移开上部结构、拉开券道间距，镜头从拱腹下方穿行，看清一道券怎样重复成整体。',metrics:[['28','道','沿桥宽并列的主拱券'],['9','m','桥面宽 · 拱脚附近9.6 m']],source:'券道数和桥宽据赵县人民政府。分解间距被放大；逐石拼缝与连接细节不作测绘复原。',next:'回看完整桥梁 →',duration:17},
-    {name:'整桥',index:'第八章 · 合而为桥',title:'再看整桥，每一块都有缘由。',copy:'地图让我们找到河流；主拱跨过河道，小拱在桥肩留空，28道券沿宽度并排。回到完整桥形，把每一块的位置、作用和联系重新看在一起。',metrics:[['单孔敞肩','','圆弧石拱桥'],['隋','','开皇后期至大业初年']],source:'结构与年代据赵县人民政府；结构作用参照ASCE。可自由旋转、剖切，或重新选择章节观察。',next:'从地图重新启程 ↺',duration:12}
+    {name:'地理',index:'第一章 · 沿图寻桥',title:'沿着地图，找到洨河。',copy:'河北，赵县，洨河。赵州桥就横跨在这里。循着朱色桥址，从中国地图走到河岸。',metrics:[['赵县','','河北省 · 石家庄市'],['洨河','','赵州桥所跨河流']],source:'赵县人民政府 · 桥址',next:'走到河边 →',duration:15},
+    {name:'跨河',index:'第二章 · 先有跨越',title:'让两岸，成为一条路。',copy:'路在两岸延伸，水从中间流过。桥要接通道路，也要为河流留下穿行的空间。',metrics:[['连接','','接通两岸道路'],['跨越','','留出桥下空间']],source:'跨河的两个条件 · 通行与过水',next:'比较桥型 →',duration:12},
+    {name:'选型',index:'第三章 · 结构的选择',title:'跨度相同，传力不同。',copy:'梁直接跨越；多孔拱在河中分跨；单孔拱把荷载交给两岸。支点在哪里，决定了桥怎样跨河。',metrics:[['支点','','河中，或两岸'],['传力','','梁与拱，各有路径']],source:'桥型对照 · 梁 / 多孔拱 / 单孔拱',next:'开始建主拱 →',duration:13},
+    {name:'主拱',index:'第四章 · 一弧跨河',title:'一道合拢，二十八道成拱。',copy:'券石从两端相向，在拱顶合拢。先成一道，再沿桥宽添齐二十八道，合成整座主拱。',metrics:[['37.02','m','主拱净跨'],['7.23','m','主拱拱矢']],source:'赵县人民政府 · 主拱尺寸与券道',next:'看桥肩留空 →',duration:22},
+    {name:'敞肩',index:'第五章 · 肩上留空',title:'四孔小拱，打开桥肩。',copy:'主拱两端，各开两孔小拱。桥肩由实变空，减轻自重，也让洪水多一条通路。',metrics:[['3.81','m','外侧两孔 · 净跨'],['2.85','m','内侧两孔 · 跨度']],source:'赵县人民政府 · 小拱尺寸；ASCE · 敞肩作用',next:'跟随传力路径 →',duration:15},
+    {name:'传力',index:'第六章 · 从桥面到两岸',title:'脚下的重量，沿拱抵岸。',copy:'桥面荷载经小拱传到主拱，再沿主拱走向两端支承。',metrics:[['桥面 → 小拱','','上部荷载向下传递'],['主拱 → 两端','','沿拱抵达支承']],source:'ASCE · 桥面、小拱与主拱的传力关系',next:'穿入拱腹 →',duration:17},
+    {name:'穿行',index:'第七章 · 横向穿行',title:'走进二十八道券之间。',copy:'移开桥面，展开券道。从拱腹穿行，看清一道道纵向拱券，如何沿桥宽并列成整体。',metrics:[['28','道','沿桥宽并列的主拱券'],['9','m','桥面宽 · 拱脚附近9.6 m']],source:'赵县人民政府 · 券道与桥宽',next:'回看完整桥梁 →',duration:17},
+    {name:'整桥',index:'第八章 · 合而为桥',title:'一弧跨河，每一块都有缘由。',copy:'主拱跨河，桥肩留空，二十八道券并列成桥。此刻再看赵州桥，形与力已经连在一起。',metrics:[['单孔敞肩','','圆弧石拱桥'],['隋','','开皇后期至大业初年']],source:'赵县人民政府；美国土木工程师学会 ASCE',next:'从地图重新启程 ↺',duration:12}
   ];
-  const state={chapter:0,p:0,running:false,continuous:false,free:false,reduce:reduceQuery.matches,type:'beam',conceptManual:false,water:0,spread:.45,cut:0,notes:true,wash:true,auto:false};
-  const ribAmount=p=>p<=.10?0:p<.32?clamp((p-.10)/.22):1+27*clamp((p-.32)/.62);
-  const ribMoment=n=>n===0?0:n===28?1:.32+(n-1)/27*.62;
+  const state={landing:true,filmTime:44,filmPlaying:!reduceQuery.matches,chapter:0,p:0,running:false,continuous:false,free:false,reduce:reduceQuery.matches,type:'beam',conceptManual:false,water:0,spread:.45,cut:0,notes:true,wash:true,auto:false};
+  const ribAmount=p=>p<=.10?0:p<.32?clamp((p-.10)/.22):p<.45?1:1+27*clamp((p-.45)/.49);
+  const ribMoment=n=>n===0?0:n===28?1:.45+(n-1)/27*.49;
   const completedRibs=()=>state.chapter<3?0:state.chapter>3?28:Math.max(0,Math.floor(ribAmount(state.p)+1e-6));
   let viewer=null,dirty=true,visited=new Set([0]),lastFrame=performance.now(),uiKey='',mapWashClock=0,mapLastKey='',mapRegionKey='',grainSize='',openingCopyKey='';
   const mc=$('mapCanvas'),mctx=mc.getContext('2d'),stage=$('stage');
@@ -50,10 +50,11 @@
     for(let i=0;i<Math.round(w*h/5200);i++){const x=seed(i,3)*w,y=seed(i,9)*h,len=3+seed(i,17)*12,sl=(seed(i,21)-.5)*2;gctx.beginPath();gctx.moveTo(x,y);gctx.lineTo(x+len,y+sl);gctx.stroke();}
     gctx.restore();
   }
-  function openingAt(p=state.p){if(state.reduce)return{hero:p<.2?1:0,map:p>=.2&&p<.8?1:0,river:p>=.8?1:0,location:clamp((p-.20)/.54)};return{hero:1-smooth((p-.12)/.10),map:smooth((p-.12)/.10)*(1-smooth((p-.76)/.14)),river:smooth((p-.76)/.14),location:clamp((p-.20)/.54)};}
+  function filmAt(){const t=state.filmTime%48;return{t,progress:state.reduce?1:clamp(t/31),wash:state.reduce?1:smooth((t-31)/5),fade:state.reduce?1:Math.min(smooth(t/.6),1-smooth((t-46.4)/1.6))};}
+  function openingAt(p=state.p){if(state.landing)return{hero:1,map:0,river:0,location:0};const river=state.reduce?(p>=.84?1:0):smooth((p-.78)/.18);return{hero:0,map:1-river,river,location:clamp(p/.74)};}
   function mapView(){const r=stage.getBoundingClientRect(),aspect=r.width/r.height;const views=[[228,265,Math.max(430,465*aspect)],[305,200,Math.max(51,72*aspect)],[291.3,211.2,Math.max(15,16*aspect)],[293.6,214.5,Math.max(4.2,4.2*aspect)]];const q=openingAt().location*3,i=Math.min(2,Math.floor(q)),t=smooth(q-i),a=views[i],b=views[i+1];return{cx:a[0]+(b[0]-a[0])*t,cy:a[1]+(b[1]-a[1])*t,width:Math.exp(Math.log(a[2])*(1-t)+Math.log(b[2])*t),level:Math.round(q),q};}
   function drawMap(now){
-    if(state.chapter!==0)return;
+    if(state.chapter!==0||state.landing)return;
     const r=stage.getBoundingClientRect(),w=r.width,h=r.height,dpr=Math.min(devicePixelRatio||1,1.75);
     if(mc.width!==Math.round(w*dpr)||mc.height!==Math.round(h*dpr)){mc.width=Math.round(w*dpr);mc.height=Math.round(h*dpr);mapLastKey='';}
     const {cx,cy,width,level,q}=mapView(),scale=w/width,tx=w*.5-cx*scale,ty=h*.5-cy*scale;
@@ -85,55 +86,91 @@
   function setMetrics(items){$('lessonMetrics').replaceChildren(...items.map(([value,unit,label])=>{const div=document.createElement('div'),strong=document.createElement('strong'),i=document.createElement('i'),span=document.createElement('span');strong.textContent=value;if(value.length>6)strong.style.fontSize='17px';i.textContent=unit;strong.append(i);span.textContent=label;div.append(strong,span);return div;}));}
   function syncConceptLabels(){const wrap=$('conceptLabels');if(!wrap)return;wrap.hidden=state.chapter!==2;for(const b of wrap.querySelectorAll('[data-concept]'))b.setAttribute('aria-pressed',String(b.dataset.concept===state.type));}
   function syncConceptCopy(){
-    const data=state.type==='beam'?['梁，可以直接跨过。','先看两岸的支承。梁从一端搭到另一端，靠弯曲承受桥面荷载。长跨梁怎样选材料、做多厚，还需要具体设计；这张概念图不判断其可行性。',[['两岸','','梁的支承位置'],['弯曲','','梁承受荷载的方式']]]:state.type==='multi'?['把大跨，分成几段小跨。','在河中加入桥墩，每个拱只需跨过较小的一段。沿朱线观察：荷载顺着各段拱弧，传到桥墩和两岸。河中的支承也占用了河道空间。',[['河中支点','','把跨度分成几段'],['沿拱传递','','传向桥墩与两岸']]]:['一个大孔，把荷载交给两岸。','单孔拱让河中保持一个开敞的大孔，沿拱把荷载传向两端。这里以赵州桥的净跨37.02米、拱矢7.23米描出主拱，接着把它拆成一道道券。',[['37.02','m','赵州桥主拱净跨'],['7.23','m','赵州桥主拱拱矢']]];
+    const data=state.type==='beam'?['一根梁，跨接两岸。','梁由两岸支承，以弯曲承受桥面荷载。看支点，也看荷载怎样走向两端。',[['两岸','','梁的支承位置'],['弯曲','','梁承受荷载的方式']]]:state.type==='multi'?['多一个桥墩，少一段跨度。','河中增加桥墩，每个拱跨越较短的一段。荷载沿各段拱弧，传到桥墩和两岸。',[['河中支点','','把大跨分成小跨'],['沿拱传递','','传向桥墩与两岸']]]:['一个大孔，把力交给两岸。','河中不立墩，一道平缓圆弧跨过37.02米。桥面荷载沿拱向两端传递。',[['37.02','m','赵州桥主拱净跨'],['7.23','m','赵州桥主拱拱矢']]];
     $('lessonTitle').textContent=data[0];$('lessonCopy').textContent=data[1];setMetrics(data[2]);
   }
+
   function selectConcept(key){state.running=false;state.continuous=false;state.free=false;state.conceptManual=true;state.type=key;viewer?.chooseConcept();syncConceptLabels();updateChapter();dirty=true;}
   function rangeActivity(id,label,min,max,value,unit,onInput){const row=document.createElement('div'),labelEl=document.createElement('label'),wrap=document.createElement('div'),input=document.createElement('input'),out=document.createElement('output');labelEl.htmlFor=id;labelEl.textContent=label;wrap.className='range-row';input.id=id;input.type='range';input.min=min;input.max=max;input.step='1';input.value=value;out.htmlFor=id;out.textContent=value+unit;input.style.setProperty('--p',(value-min)/(max-min));input.oninput=()=>{const n=+input.value;out.textContent=n+unit;input.style.setProperty('--p',(n-min)/(max-min));onInput(n);dirty=true;};wrap.append(input,out);row.append(labelEl,wrap);return row;}
   function choices(items,selected,cb){const wrap=document.createElement('div');wrap.className='choices';for(const [key,text]of items){const b=document.createElement('button');b.type='button';b.textContent=text;b.dataset.choice=key;b.setAttribute('aria-pressed',String(key===selected));b.onclick=()=>{for(const child of wrap.children)child.setAttribute('aria-pressed',String(child===b));cb(key);dirty=true;};wrap.append(b);}return wrap;}
   function renderActivity(){const a=$('activity');a.replaceChildren();switch(state.chapter){
-    case 0:a.append(choices([['0','中国'],['1','河北'],['2','石家庄'],['3','赵县']],String(Math.round(openingAt().location*3)),key=>scrub(.22+ +key*.175)));break;
-    case 1:a.append(rangeActivity('waterLevel','抬高水位，观察跨越空间（示意）',0,100,state.water,state.water?'%':'%',n=>{takeControl(false);state.water=n;}));break;
+    case 0:a.append(choices([['0','中国'],['1','河北'],['2','石家庄'],['3','赵县']],String(Math.round(openingAt().location*3)),key=>scrub(+key*.24)));break;
+    case 1:a.append(rangeActivity('waterLevel','抬高水位，看河流与两岸',0,100,state.water,state.water?'%':'%',n=>{takeControl(false);state.water=n;}));break;
     case 2:a.append(choices([['beam','梁'],['multi','多孔拱'],['single','单孔拱']],state.type,selectConcept));break;
     case 3:a.append(rangeActivity('ribCount','沿桥宽，逐道添入主拱券',0,28,completedRibs(),' 道',n=>scrub(ribMoment(n))));break;
     case 4:a.append(rangeActivity('smallCount','四个小拱，逐孔显现',0,4,Math.floor(state.p*4+1e-6),' 孔',n=>scrub(n/4)));break;
     case 5:a.append(choices([['path','看传力路径'],['still','停下观察']],state.free?'still':'path',key=>{if(key==='path'){scrub(.82);}else takeControl();}));break;
-    case 6:a.append(rangeActivity('ribSpread','拉开券道间距（放大示意）',0,100,Math.round(state.spread*100),'%',n=>{takeControl(false);state.spread=n/100;}));break;
+    case 6:a.append(rangeActivity('ribSpread','展开券道',0,100,Math.round(state.spread*100),'%',n=>{takeControl(false);state.spread=n/100;}));break;
     case 7:a.append(choices([['whole','整桥'],['section','剖切']],state.cut?'section':'whole',key=>{takeControl();setCut(key==='section'?100:0);}));break;
   }}
   function syncUI(){
-    const c=chapters[state.chapter],key=state.chapter+'|'+state.type+'|'+state.running+'|'+state.free+'|'+state.p.toFixed(3);
+    const c=chapters[state.chapter],key=state.landing+'|'+state.filmPlaying+'|'+state.chapter+'|'+state.type+'|'+state.running+'|'+state.free+'|'+state.p.toFixed(3);
     if(key===uiKey)return;uiKey=key;
     const progress=Math.round(state.p*100);$('prog').value=Math.round(state.p*1000);$('prog').style.setProperty('--p',state.p);$('prog').setAttribute('aria-valuetext',`${c.name}，本段${progress}%`);$('rdProg').textContent=progress+'%';
-    $('bPlay').textContent=state.running?'Ⅱ 暂停导览':state.chapter===0&&state.p===0?'▶ 开始导览':state.chapter===7&&state.p===1?'↺ 再看一遍':'▶ 继续导览';$('bPlay').setAttribute('aria-pressed',String(state.running));$('bPrev').disabled=state.chapter===0;
-    $('sceneMode').textContent=state.free?'自由观察':state.running?(state.continuous?'连续导览':'重看本段'):state.chapter===7&&state.p===1?'自由观察':'已暂停';
+    $('bPlay').textContent=state.landing?'▶ 开始导览':state.running?'Ⅱ 暂停导览':state.chapter===0&&state.p===0?'▶ 开始导览':state.chapter===7&&state.p===1?'↺ 再看一遍':'▶ 继续导览';$('bPlay').setAttribute('aria-pressed',String(state.running));$('bPrev').disabled=state.chapter===0;
+    $('bFilmPause').textContent=state.reduce?'静观整桥':state.filmPlaying?'Ⅱ 暂停动画':'▶ 播放动画';$('bFilmPause').disabled=state.reduce;$('bFilmReplay').disabled=state.reduce;$('bFilmPause').setAttribute('aria-pressed',String(!state.filmPlaying));
+    $('sceneMode').textContent=state.landing?(state.filmPlaying?'循环展映':'静观') :state.free?'自由观察':state.running?(state.continuous?'连续导览':'重看本段'):state.chapter===7&&state.p===1?'自由观察':'已暂停';
     for(const b of document.querySelectorAll('[data-chapter]')){const i=+b.dataset.chapter;b.toggleAttribute('aria-current',i===state.chapter);if(i===state.chapter)b.setAttribute('aria-current','step');b.style.setProperty('--chapter-p',i===state.chapter?state.p:visited.has(i)?1:0);}
-    if(state.chapter===0){for(const b of $('activity').querySelectorAll('[data-choice]'))b.setAttribute('aria-pressed',String(+b.dataset.choice===Math.round(openingAt().location*3)));syncOpeningCopy();}
+    if(state.chapter===0&&!state.landing){for(const b of $('activity').querySelectorAll('[data-choice]'))b.setAttribute('aria-pressed',String(+b.dataset.choice===Math.round(openingAt().location*3)));syncOpeningCopy();}
     if(state.chapter===2){syncConceptLabels();for(const b of $('activity').querySelectorAll('[data-choice]'))b.setAttribute('aria-pressed',String(b.dataset.choice===state.type));}
     if(state.chapter===3||state.chapter===4){const input=$(state.chapter===3?'ribCount':'smallCount');if(input){const n=state.chapter===3?completedRibs():Math.floor(state.p*4+1e-6);input.value=n;input.style.setProperty('--p',state.chapter===3?n/28:state.p);input.nextElementSibling.textContent=n+(state.chapter===3?' 道':' 孔');}}
   }
   function syncOpeningCopy(){
-    const key=state.p<.2?'hero':state.p<.8?'map':'river';
+    const key=state.p<.78?'map':'river';
     if(key===openingCopyKey)return;openingCopyKey=key;
-    const data=key==='hero'?{title:'一座石桥，为什么长成这样？',copy:'一孔大拱越过河道，四孔小拱留在桥肩。为什么这样搭？先记住这座桥的形状，再回到它所在的地方。',metrics:[['一孔','','主拱跨过河道'],['四孔','','小拱留在桥肩']],source:'桥形据赵县人民政府；模型用于结构教学。'}:key==='map'?{title:'先找到它所在的地方。',copy:'从中国到河北，再到石家庄的赵县。朱色点标出桥址，石青沿行政区轮廓洇开：赵州桥，就在洨河上。',metrics:[['赵县','','河北省 · 石家庄市'],['洨河','','赵州桥所跨河流']],source:'地点据赵县人民政府；现代行政区轮廓用于定位，不表示隋代边界。'}:{title:'河在中间，路该怎样接上？',copy:'地图收起，视线落到两岸之间。先让桥暂时退场，看看要跨过的空间，再比较梁与拱怎样把两岸接起来。',metrics:[['连接','','两岸连续通行'],['跨越','','保留桥下空间']],source:'河岸、水位和高程为教学示意，不表示隋代地貌或实测河宽。'};
+    const data=key==='map'?{title:'沿着地图，找到洨河。',copy:'从中国到河北，再到石家庄赵县。朱色桥址落在洨河上，下一步走到两岸之间。',metrics:[['赵县','','河北省 · 石家庄市'],['洨河','','赵州桥所跨河流']],source:'赵县人民政府 · 桥址'}:{title:'让两岸，成为一条路。',copy:'路在两岸延伸，水从中间流过。桥要接通道路，也要为河流留下穿行的空间。',metrics:[['连接','','接通两岸道路'],['跨越','','留出桥下空间']],source:'跨河的两个条件 · 通行与过水'};
     $('lessonTitle').textContent=data.title;$('lessonCopy').textContent=data.copy;$('lessonSource').textContent=data.source;setMetrics(data.metrics);
   }
-  function syncOpeningLayers(){const intro=state.chapter===0;stage.classList.toggle('map-mode',intro);stage.classList.toggle('intro-dynamic',intro);if(intro){const o=openingAt();stage.style.setProperty('--map-alpha',o.map.toFixed(4));stage.style.setProperty('--gl-alpha',Math.max(o.hero,o.river).toFixed(4));}else{stage.style.removeProperty('--map-alpha');stage.style.removeProperty('--gl-alpha');openingCopyKey='';}}
-  function updateChapter(){const c=chapters[state.chapter];openingCopyKey='';$('chapterCount').textContent=String(state.chapter+1).padStart(2,'0')+' / 08';$('lessonIndex').textContent=c.index;$('lessonTitle').textContent=c.title;$('lessonCopy').textContent=c.copy;$('lessonSource').textContent=c.source;$('bNext').textContent=c.next;setMetrics(c.metrics);syncOpeningLayers();syncConceptLabels();$('sceneId').textContent=String(state.chapter+1).padStart(2,'0')+' / '+c.name+' · '+(state.chapter===0?'现代位置图':'结构教学模型');$('viewTip').textContent=state.chapter===0?'开场：整桥 → 地图 → 洨河河岸；位置图使用现代行政区轮廓。':'拖动即接管镜头 · 滚轮 / 双指缩放 · 方向键旋转';renderActivity();if(state.chapter===2)syncConceptCopy();uiKey='';dirty=true;syncUI();}
-  function enter(chapter,p=0,run=false,chain=false){state.chapter=clamp(chapter,0,7);state.p=clamp(p);state.running=run;state.continuous=chain;state.free=false;state.auto=false;state.cut=0;if(state.chapter===2){state.type='beam';state.conceptManual=false;}visited.add(state.chapter);mapWashClock=0;mapLastKey='';viewer?.beginTransition();viewer?.stopOrbit();setCut(0);updateChapter();}
-  function scrub(p){state.running=false;state.continuous=false;state.free=false;state.p=clamp(p);if(state.chapter===0){mapWashClock=0;mapLastKey='';}if(state.chapter===2){state.conceptManual=false;state.type=state.p<.25?'beam':state.p<.5?'multi':'single';syncConceptLabels();}viewer?.cancelTransition();dirty=true;uiKey='';syncUI();}
+  function syncOpeningLayers(){
+    const intro=state.chapter===0&&!state.landing;
+    $('wrap').classList.toggle('landing',state.landing);
+    $('landing').hidden=!state.landing;
+    stage.classList.toggle('map-mode',intro);stage.classList.toggle('intro-dynamic',intro||state.landing);
+    if(intro){const o=openingAt();stage.style.setProperty('--map-alpha',o.map.toFixed(4));stage.style.setProperty('--gl-alpha',o.river.toFixed(4));}
+    else{stage.style.removeProperty('--map-alpha');if(!state.landing)stage.style.removeProperty('--gl-alpha');}
+  }
+  function updateChapter(){
+    const c=chapters[state.chapter];openingCopyKey='';
+    $('chapterCount').textContent=String(state.chapter+1).padStart(2,'0')+' / 08';$('lessonIndex').textContent=c.index;
+    $('lessonTitle').textContent=c.title;$('lessonCopy').textContent=c.copy;$('lessonSource').textContent=c.source;$('bNext').textContent=c.next;setMetrics(c.metrics);
+    syncOpeningLayers();syncConceptLabels();
+    $('sceneId').textContent=state.landing?'安濟橋 / 立体石构図':String(state.chapter+1).padStart(2,'0')+' / '+c.name;
+    $('viewTip').textContent=state.landing?'':state.chapter===0?'中国 → 河北 → 石家庄 → 赵县':'拖动旋转 · 滚轮 / 双指缩放';
+    renderActivity();if(state.chapter===2)syncConceptCopy();uiKey='';dirty=true;syncUI();
+  }
+  function enter(chapter,p=0,run=false,chain=false){
+    state.landing=false;state.filmPlaying=false;state.chapter=clamp(chapter,0,7);state.p=clamp(p);state.running=run;state.continuous=chain;state.free=false;state.auto=false;state.cut=0;
+    if(state.chapter===2){state.type='beam';state.conceptManual=false;}
+    visited.add(state.chapter);mapWashClock=0;mapLastKey='';viewer?.beginTransition();viewer?.stopOrbit();setCut(0);updateChapter();
+  }
+  function showLanding(){
+    state.landing=true;state.filmTime=44;state.filmPlaying=!state.reduce;state.running=false;state.free=false;state.auto=false;state.cut=0;state.chapter=0;state.p=0;
+    viewer?.beginTransition();viewer?.stopOrbit();setCut(0);updateChapter();
+  }
+  function scrub(p){
+    if(state.landing)enter(0,0);
+    state.running=false;state.continuous=false;state.free=false;state.p=clamp(p);
+    if(state.chapter===0){mapWashClock=0;mapLastKey='';}
+    if(state.chapter===2){state.conceptManual=false;state.type=state.p<.25?'beam':state.p<.5?'multi':'single';syncConceptLabels();}
+    viewer?.cancelTransition();dirty=true;uiKey='';syncUI();
+  }
   function takeControl(free=true){state.running=false;state.continuous=false;state.free=free;viewer?.cancelTransition();if(free)viewer?.adoptCamera();dirty=true;uiKey='';syncUI();}
+
   function setCut(n){state.cut=clamp(n,0,100);$('cut').value=state.cut;$('cut').style.setProperty('--p',state.cut/100);$('rdCut').textContent=state.cut?'切入 '+Math.round(state.cut)+'%':'未剖切';if(state.chapter===7)for(const b of $('activity').querySelectorAll('[data-choice]'))b.setAttribute('aria-pressed',String(b.dataset.choice===(state.cut?'section':'whole')));dirty=true;}
   $('bSources').onclick=()=>{takeControl(false);$('sourcesDialog').showModal();};$('bCloseSources').onclick=()=>$('sourcesDialog').close();
   document.querySelectorAll('#conceptLabels [data-concept]').forEach(b=>b.onclick=()=>selectConcept(b.dataset.concept));
-  $('bPlay').onclick=()=>{if(state.running){takeControl(false);return;}if(state.chapter===7&&state.p===1){visited=new Set();enter(0,0,true,true);return;}state.running=true;state.continuous=true;state.free=false;state.auto=false;viewer?.beginTransition();viewer?.stopOrbit();if(state.p===1){if(state.chapter<7)enter(state.chapter+1,0,true,true);else enter(0,0,true,true);}dirty=true;uiKey='';syncUI();};
+  $('bPlay').onclick=()=>{if(state.landing){enter(0,0,true,true);return;}if(state.running){takeControl(false);return;}if(state.chapter===7&&state.p===1){visited=new Set();enter(0,0,true,true);return;}state.running=true;state.continuous=true;state.free=false;state.auto=false;viewer?.beginTransition();viewer?.stopOrbit();if(state.p===1){if(state.chapter<7)enter(state.chapter+1,0,true,true);else enter(0,0,true,true);}dirty=true;uiKey='';syncUI();};
+  $('bStartTour').onclick=()=>{enter(0,0,true,true);if(innerWidth<=860)stage.scrollIntoView({block:'start'});};
+  $('bFilmPause').onclick=()=>{state.filmPlaying=!state.filmPlaying;uiKey='';dirty=true;};
+  $('bFilmReplay').onclick=()=>{state.filmTime=0;state.filmPlaying=!state.reduce;dirty=true;};
+  $('bLanding').onclick=showLanding;
   $('bReplay').onclick=()=>enter(state.chapter,0,true,false);$('bNext').onclick=()=>enter(state.chapter===7?0:state.chapter+1,0,true,false);$('bPrev').onclick=()=>enter(state.chapter-1,1,false,false);$('bReset').onclick=()=>enter(7,1,false,false);
   document.querySelectorAll('[data-chapter]').forEach(b=>b.onclick=()=>enter(+b.dataset.chapter,0,true,false));
   $('prog').oninput=()=>scrub($('prog').value/1000);$('cut').oninput=()=>{const n=+$('cut').value;if(state.chapter<3)enter(7,1);takeControl();setCut(n);};
   $('bWash').onclick=()=>{state.wash=!state.wash;$('bWash').setAttribute('aria-pressed',String(state.wash));$('bWash').textContent=state.wash?'褪去设色':'施加设色';viewer?.startWash();mapWashClock=0;mapLastKey='';dirty=true;};
   $('bNote').onclick=()=>{state.notes=!state.notes;$('bNote').setAttribute('aria-pressed',String(state.notes));dirty=true;};
   $('bAuto').onclick=()=>{if(state.chapter===0)enter(7,1);takeControl();state.auto=!state.auto;$('bAuto').setAttribute('aria-pressed',String(state.auto));dirty=true;};
-  reduceQuery.addEventListener('change',()=>{state.reduce=reduceQuery.matches;viewer?.cancelTransition();dirty=true;});
+  reduceQuery.addEventListener('change',()=>{state.reduce=reduceQuery.matches;if(state.reduce)state.filmPlaying=false;viewer?.cancelTransition();dirty=true;});
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readTheme);
   new ResizeObserver(()=>{dirty=true;mapLastKey='';viewer?.resize();}).observe(stage);
   const fallback=error=>{console.error('赵州桥模型初始化失败',error);$('modelStatus').hidden=false;$('modelStatus').textContent='3D模型暂时无法显示。地图与八段讲解仍可阅读；请使用支持WebGL的浏览器打开。';};
@@ -148,8 +185,8 @@
     const cv=$('gl'),ov=$('ov'),octx=ov.getContext('2d'),DPR=Math.min(devicePixelRatio||1,1.75);
     const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:false});renderer.setPixelRatio(DPR);renderer.localClippingEnabled=true;renderer.outputColorSpace=THREE.LinearSRGBColorSpace;
     const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(36,1,.07,2000),clip=new THREE.Plane(new THREE.Vector3(0,0,-1),140);
-    const U={paper:{value:new THREE.Color()},ink:{value:new THREE.Color()},red:{value:new THREE.Color()},boil:{value:0},dpr:{value:DPR},prog:{value:1},grow:{value:999},wash:{value:1},washY:{value:999},lineK:{value:.45},hang:{value:999},shinCol:{value:new THREE.Color()},light:{value:new THREE.Vector3(.55,.78,.3).normalize()}};
-    function theme(){U.paper.value.set(css.paper);U.ink.value.set(css.ink);U.red.value.set(css.red);renderer.setClearColor(U.paper.value);}
+    const U={time:{value:0},sequence:{value:0},water:{value:new THREE.Color('#6f9a9a')},paper:{value:new THREE.Color()},ink:{value:new THREE.Color()},red:{value:new THREE.Color()},boil:{value:0},dpr:{value:DPR},prog:{value:1},grow:{value:999},wash:{value:1},washY:{value:999},lineK:{value:.45},hang:{value:999},shinCol:{value:new THREE.Color()},light:{value:new THREE.Vector3(.55,.78,.3).normalize()}};
+    function theme(){U.paper.value.set(css.paper);U.ink.value.set(css.ink);U.red.value.set(css.red);U.water.value.set(css.paper==='#1a1e1d'?'#527a78':'#6f9a9a');renderer.setClearColor(U.paper.value);}
     theme();
 /* ENGINE_GEOMETRY */
     const model=buildAnji();scene.add(model.group);
@@ -225,14 +262,20 @@
     function pose(){
       const c=state.chapter,p=state.reduce?(c===0?(state.p<.2?0:1):1):smooth(state.p),path=cameraPaths[c];
       let pos=path.pos.getPoint(p),aim=path.aim.getPoint(p);
-      if(c===0){
-        if(state.p<.22){const t=state.reduce?0:smooth(state.p/.22);pos=V(12,20,86).lerp(V(4,15,73),t);aim=V(0,3.5,0).lerp(V(0,3,0),t);}
-        else{const t=state.reduce?1:smooth((state.p-.76)/.24);pos=V(12,18,72).lerp(V(0,6,68),t);aim=V(0,1,0).lerp(V(0,-.8,0),t);}
+      if(state.landing){const f=filmAt(),angle=.28+Math.sin(f.t/48*Math.PI*2)*.24;pos=V(Math.sin(angle)*61,23+4*Math.sin(f.t*.10),Math.cos(angle)*61);aim=V(0,2.5,0);}
+      else if(c===0){
+        const t=state.reduce?1:smooth((state.p-.78)/.22);pos=V(18,29,77).lerp(V(21,23,70),t);aim=V(0,0,0).lerp(V(0,-.8,0),t);
       }
+      if(c===1){const t=state.reduce?1:smooth(state.p);pos=V(21,23,70).lerp(V(28,33,63),t);aim=V(0,-.7,0);}
+      if(c===3){
+        if(state.p<.32){const t=state.reduce?1:smooth(state.p/.32);pos=V(0,12,67).lerp(V(0,14,61),t);aim=V(0,3,-4.5);}
+        else{const turn=state.reduce?1:smooth((state.p-.32)/.13);pos=V(0,14,61).lerp(V(33,53,48),turn);aim=V(0,3,-4.5).lerp(V(0,4,0),turn);}
+      }
+
       if(c===2){const m=conceptMorph();pos.z+=14*(1-m);aim.y=2+2*m;}
       // Maintain a readable full span on narrow screens; shoulder/passage shots keep their close framing.
       if(c===0||c===1||c===2||c===3||c===7){
-        const width=c===2?72-18*conceptMorph():c===3?51:60;
+        const width=state.landing?65:c===2?72-18*conceptMorph():c===3?49:60;
         const minimum=width/(2*Math.tan(camera.fov*Math.PI/360)*camera.aspect),delta=pos.clone().sub(aim);
         if(delta.length()<minimum)pos=aim.clone().add(delta.setLength(minimum));
       }
@@ -242,22 +285,22 @@
     function resize(){const r=stage.getBoundingClientRect();W=Math.max(1,r.width);H=Math.max(1,r.height);renderer.setSize(W,H,false);ov.width=Math.round(W*DPR);ov.height=Math.round(H*DPR);camera.aspect=W/H;camera.fov=clamp(36+Math.max(0,1.28-W/H)*27,36,58);camera.updateProjectionMatrix();dirty=true;}
     function reveal(name,p=1,opacity=1){const part=model.parts[name];if(!part)return;part.node.visible=p>0&&opacity>.002;part.uniforms.progress.value=clamp(p);part.uniforms.opacity.value=opacity;part.uniforms.wash.value=smooth((p-.72)/.28);for(const obj of part.meshes){const transparent=!obj.isMesh||opacity<.999;if(obj.material.transparent!==transparent){obj.material.transparent=transparent;obj.material.needsUpdate=true;}obj.material.depthWrite=obj.isMesh&&!transparent;}}
     function setModel(){
-      const c=state.chapter,p=state.p,opening=c===0?openingAt():null,introHero=!!opening?.hero,introRiver=!!opening?.river;
+      const c=state.chapter,p=state.p,opening=c===0?openingAt():null,introHero=state.landing,introRiver=!!opening?.river;
       model.group.visible=c>0||introHero||introRiver;
       for(const part of Object.values(model.parts)){part.node.visible=false;part.uniforms.progress.value=0;}
-      if(c>0||introRiver){reveal('terrain',1,c===2?0:1);reveal('water',1,c===2?0:.62);reveal('abutments',c===3?clamp(p/.10):c>3?1:0);}
-      for(let i=0;i<28;i++){const part=model.parts['rib-'+i];if(!part)continue;const n=c===3?clamp(ribAmount(p)-i):c>3?1:0;reveal('rib-'+i,n);part.node.position.z=c===6?(13.5-i)*state.spread*.24:0;}
+      if(c>0||introRiver){reveal('terrain',1,c===2?0:1);reveal('water',1,c===2?0:1);reveal('abutments',c===3?clamp(p/.10):c>3?1:0);}
+      for(let i=0;i<28;i++){const part=model.parts['rib-'+i];if(!part)continue;const n=c===3?clamp(ribAmount(p)-i):c>3?1:0;reveal('rib-'+i,n);part.node.position.z=c===6?(i-13.5)*state.spread*.24:0;for(const mesh of part.meshes)if(mesh.isMesh)mesh.material.uniforms.uFocus.value=c===3&&i===Math.min(27,Math.floor(ribAmount(p)))&&p<.94?1:0;}
       if(c>=4)for(let i=0;i<4;i++)reveal('small-'+i,c===4?clamp(p*4-i):1);
-      if(c===5){reveal('fill',clamp(p*4),p>.27&&p<.83?.25:1);reveal('cover',clamp((p-.08)*4),p>.27&&p<.83?.25:1);reveal('deck',clamp((p-.23)*4),p>.27&&p<.83?.32:1);reveal('railing',clamp((p-.42)*4),p>.27&&p<.83?.38:1);reveal('arch-detail',clamp((p-.5)*3));}
+      if(c===5){reveal('fill',clamp(p*4));reveal('cover',clamp((p-.08)*4));reveal('deck',clamp((p-.23)*4));reveal('railing',clamp((p-.42)*4));reveal('arch-detail',clamp((p-.5)*3));}
       if(c===6){for(const name of ['terrain','water','abutments','small-0','small-1','small-2','small-3'])reveal(name,name==='terrain'||name==='water'?1:0,name==='terrain'||name==='water'?.22:1);}
       if(c===7)for(const name of ['fill','cover','deck','railing','arch-detail'])reveal(name,1);
       if(c===3)reveal('guides',clamp(p/.1),.6-.4*smooth((p-.35)/.6));
       if(c===4)reveal('guides',1,.17);
       if(c>=5)reveal('guides',1,.1);
-      if(introHero){for(const name of Object.keys(model.parts))reveal(name,1);reveal('guides',0);}
+      if(introHero){const f=filmAt();for(const [name,part] of Object.entries(model.parts)){reveal(name,1,name==='terrain'||name==='water'?1:f.fade);part.uniforms.progress.value=f.progress;part.uniforms.wash.value=1;}reveal('guides',0);}
       for(const [type,concept]of Object.entries(concepts)){
-        const ghost=c===3&&p<.10&&type==='single',selected=type===state.type;
-        concept.group.visible=c===2||ghost;
+        const ghost=false,selected=type===state.type;
+        concept.group.visible=!state.landing&&(c===2||ghost);
         const morph=ghost?1:conceptMorph();concept.group.scale.setScalar((selected||ghost)?.42+.58*morph:.42);concept.group.position.x=conceptOffset[type]*(1-morph);
         concept.group.renderOrder=selected?8:4;
         const build=selected?(state.conceptManual?conceptBeat:clamp(type==='beam'?p/.25:type==='multi'?(p-.25)/.25:(p-.5)/.28)):1;
@@ -270,17 +313,19 @@
       }
       flowGroup.visible=c===5&&p>.35;
       clip.constant=state.cut?6.2-state.cut/100*6.2:140;
-      const waterPart=model.parts.water;if(waterPart)waterPart.node.position.y=(c===1?state.water:0)/100*10;
+      const waterPart=model.parts.water;if(waterPart)waterPart.node.position.y=(c===1?state.water:0)/100*2.7;
       if(c===6&&state.running&&!state.free){state.spread=.2+.65*Math.sin(Math.PI*p);const input=$('ribSpread');if(input){input.value=Math.round(state.spread*100);input.style.setProperty('--p',state.spread);input.nextElementSibling.textContent=Math.round(state.spread*100)+'%';}}
       let caption='';
-      if(c===0){caption=p<.12?'一孔大拱，四孔小拱。为什么这样搭？':p<.22?'先记住桥形，再回到它所在的地方。':p<.35?'中国 → 河北':p<.57?'河北 · 石家庄':p<.80?'石家庄 · 赵县 · 洨河桥址':'河在中间，路该怎样接上？';$('sceneId').textContent='01 / 地理 · '+(p<.2?'桥形初见':p<.8?'现代位置图':'河岸空间示意');}
-      if(c===1)caption='先看两岸，再看跨越。河岸与水位为示意。';
-      if(c===2)caption=state.type==='beam'?'梁：直接跨越，以弯曲承受荷载。':state.type==='multi'?'多孔拱：河中增加支点，把大跨分小。':conceptMorph()>.3?'回到赵州桥 · 净跨 37.02 m，拱矢 7.23 m':'单孔拱：河中不立墩，沿拱传向两岸。';
-      if(c===3)caption=p<.1?'桥台与朱笔定弧 · 组装示意':p<.32?'先看一道券：券石逐块合拢 · 组装示意':`已合拢 ${completedRibs()} / 28 道 · 沿桥宽并列`;
-      if(c===4)caption=`敞肩小拱 ${Math.floor(p*4+1e-6)} / 4 孔 · 每侧两孔`;
-      if(c===5)caption=p>.27&&p<.83?'透视观察 · 朱线表示荷载传递路径':'桥面 → 小拱 → 主拱 → 两端支承';
-      if(c===6)caption='沿桥宽穿行 · 券道展开间距为放大示意';
-      if(c===7)caption=state.p===1?'主拱跨河，桥肩留空，二十八道券合而成桥。':'恢复完整桥形，回到两岸之间。';
+      if(c===0){caption=p<.25?'中国 → 河北':p<.50?'河北 · 石家庄':p<.78?'赵县 · 洨河桥址':'水穿两岸，路待相连。';}
+      if(c===1)caption='路连两岸，水过桥下。';
+      if(c===2)caption=state.type==='beam'?'梁 · 以弯曲承载':state.type==='multi'?'多孔拱 · 河中分跨':'单孔拱 · 沿弧抵岸';
+      if(c===3)caption=p<.1?'两端立基，朱笔定弧。':p<.32?'第一道券 · 从两端相向合拢':p<.45?'抬高视线，看清桥宽。':'已合拢 '+completedRibs()+' / 28 道 · 沿桥宽并列';
+      if(c===4)caption='敞肩小拱 '+Math.floor(p*4+1e-6)+' / 4 孔 · 每侧两孔';
+      if(c===5)caption='桥面 → 小拱 → 主拱 → 两端支承';
+      if(c===6)caption='穿入拱腹，沿桥宽看二十八道券。';
+      if(c===7)caption='主拱跨河，桥肩留空，二十八道券合而成桥。';
+      if(state.landing){const f=filmAt();caption=f.progress<.22?'立基 · 起拱':f.progress<.63?'券石成弧 · 逐道并列':f.progress<.81?'桥肩留空 · 四孔敞开':f.progress<1?'铺面 · 安栏':f.wash<1?'石青入水 · 青石设色':'一弧跨千年';}
+
       if($('stageCaption').textContent!==caption)$('stageCaption').textContent=caption;
     }
     function drawDeco(){
@@ -303,13 +348,14 @@
         const tw=octx.measureText(text).width,x=clamp((ax+bx)/2+offset-tw/2,8,W-tw-8),y=clamp((ay+by)/2+(offset?0:14),86,H-100);
         octx.fillStyle=css.paper;octx.fillRect(x-4,y-8,tw+8,16);octx.fillStyle=css.red;octx.fillText(text,x,y);octx.restore();
       };
+      if(state.p>=.45){dimension(V(0,g.RISE+1.9,-4.5),V(0,g.RISE+1.9,4.5),'28 道 · 沿桥宽并列',42);return;}
       dimension(V(-g.SPAN/2,-1.2,5.6),V(g.SPAN/2,-1.2,5.6),'净跨 37.02 m',0);
       dimension(V(0,0,5.6),V(0,g.RISE,5.6),'拱矢 7.23 m',W<420?44:53);
     }
     function overlay(){
       octx.setTransform(DPR,0,0,DPR,0,0);octx.clearRect(0,0,W,H);
       drawDeco();
-      if(!state.notes||state.chapter<4)return;
+      if(state.landing||!state.notes||state.chapter<4)return;
       if(state.running&&state.p>.14&&state.p<.85&&state.chapter!==3)return;
       const items=state.chapter===4?model.notes.filter(([s])=>s.startsWith('敞肩')&&(s.includes('3.81')?state.p>=.5:state.p>=.25)):state.chapter===5?(state.p<.35?[]:[['桥面荷载',V(10.6,8.8,5.1)],['小拱 → 主拱',V(12,6.7,5.1)],['传向两端支承',V(19,-.2,5.1)]]):state.chapter===6?model.notes.filter(([s])=>s.includes('28')):model.notes.filter(([s])=>!s.startsWith('敞肩'));
       octx.font=`${W<500?9:10}px "Songti SC","SimSun",serif`;octx.textBaseline='middle';const placed=[];
@@ -332,9 +378,10 @@
       beginTransition(){selectedType='';if(!state.reduce)transition={pos:camera.position.clone(),aim:target.clone(),time:0};else transition=null;dirty=true;},
       cancelTransition(){transition=null;},startWash(){washTime=0;},
       render(now,dt){
-        const boil=state.reduce?0:Math.floor(now/170)%64,needs=dirty||state.running||state.auto||transition||washTime<1||conceptBeat<1||flowGroup.visible||boil!==lastBoil;if(!needs)return;
+        const boil=state.reduce?0:Math.floor((state.landing?state.filmTime*1000:now)/170)%64;
+        const needs=dirty||state.filmPlaying||(!state.reduce&&!state.landing&&state.chapter!==2)||state.running||state.auto||transition||washTime<1||conceptBeat<1||flowGroup.visible||boil!==lastBoil;if(!needs)return;
         conceptBeat=state.reduce?1:Math.min(1,conceptBeat+dt/1.8);
-        U.boil.value=boil;lastBoil=boil;
+        U.boil.value=boil;lastBoil=boil;U.time.value=state.reduce?0:state.landing?state.filmTime:now/1000;U.sequence.value=state.landing?1:0;
         const cp=state.chapter===3?clamp(state.p/.12):state.chapter>=4?1:0;
         U.grow.value=cp>=1?999:-6.9+Math.pow(Math.min(1,cp/.9),.7)*16;
         if(state.chapter===2&&selectedType!==state.type){selectedType=state.type;syncConceptCopy();}
@@ -343,6 +390,7 @@
         else{const next=pose();if(transition){transition.time+=dt;const a=smooth(transition.time/1.3);camera.position.lerpVectors(transition.pos,next.pos,a);target.lerpVectors(transition.aim,next.aim,a);if(a===1)transition=null;}else{camera.position.copy(next.pos);target.copy(next.aim);}}
         camera.lookAt(target);camera.updateMatrixWorld();
         washTime=state.reduce?1:Math.min(1,washTime+dt/3.2);U.wash.value=state.wash?1:0;U.lineK.value=state.wash?.45:1;U.washY.value=!state.wash||washTime===1?999:-6.9+washTime*25;
+        if(state.landing){const f=filmAt();U.wash.value=f.wash;U.washY.value=f.wash>=1?999:-6.9+f.wash*25;U.lineK.value=1-.55*f.wash;stage.style.setProperty('--gl-alpha','1');}
         if(state.chapter===7&&state.running&&!state.reduce)U.washY.value=state.p>.8?999:-6.9+state.p*27;
         flowMaterial.color.set(css.red);arrows.forEach((a,i)=>{const curve=flowCurves[i%2],t=(i/6+(state.running?state.p: .75))%1;a.position.copy(curve.getPoint(t));a.setDirection(curve.getTangent(t).normalize());a.setColor(css.red);});
         renderer.render(scene,camera);if(state.chapter===0){octx.setTransform(DPR,0,0,DPR,0,0);octx.clearRect(0,0,W,H);}else overlay();dirty=false;
@@ -354,7 +402,7 @@
           const values=part.meshes[0].geometry.attributes.aBuild.array;
           return[name,{visible:part.node.visible,progress:part.uniforms.progress.value,opacity:part.uniforms.opacity.value,wash:part.uniforms.wash.value,min:values.reduce((a,b)=>Math.min(a,b),Infinity),max:values.reduce((a,b)=>Math.max(a,b),-Infinity)}];
         }));
-        return{parts:Object.keys(model.parts),ribs:Object.keys(model.parts).filter(n=>n.startsWith('rib-')).length,smallArches:Object.keys(model.parts).filter(n=>n.startsWith('small-')).length,completedRibs:completedRibs(),visible:Object.keys(model.parts).filter(n=>model.parts[n].node.visible),build,camera:camera.position.toArray(),target:target.toArray(),clip:clip.constant,concept:state.chapter===2?state.type:null,conceptVisible:Object.keys(concepts).filter(k=>concepts[k].group.visible),conceptBuild,conceptMorph:conceptMorph(),opening:openingAt(),uniforms:{grow:U.grow.value,boil:U.boil.value,wash:U.wash.value,washY:U.washY.value},notesDrawn:state.notes,smallArchLabels:state.chapter===4&&state.notes?(state.p>=.5?2:state.p>=.25?1:0):0,finite:coords.every(a=>Array.from(a.array).every(Number.isFinite)),geometry:{span:g.SPAN,rise:g.RISE,radius:g.R},drawCalls:renderer.info.render.calls};
+        return{parts:Object.keys(model.parts),ribs:Object.keys(model.parts).filter(n=>n.startsWith('rib-')).length,smallArches:Object.keys(model.parts).filter(n=>n.startsWith('small-')).length,completedRibs:completedRibs(),visible:Object.keys(model.parts).filter(n=>model.parts[n].node.visible),build,camera:camera.position.toArray(),target:target.toArray(),clip:clip.constant,concept:state.chapter===2?state.type:null,conceptVisible:Object.keys(concepts).filter(k=>concepts[k].group.visible),conceptBuild,conceptMorph:conceptMorph(),opening:openingAt(),uniforms:{grow:U.grow.value,boil:U.boil.value,wash:U.wash.value,washY:U.washY.value},notesDrawn:state.notes,smallArchLabels:state.chapter===4&&state.notes?(state.p>=.5?2:state.p>=.25?1:0):0,landing:state.landing,film:filmAt(),ribScreen: Array.from({length:28},(_,i)=>{const q=V(0,g.RISE+g.THICK,-4.5+(i+.5)/28*9).project(camera);return[(q.x*.5+.5)*W,(-q.y*.5+.5)*H];}),clearance:{cover:Math.min(...Array.from({length:121},(_,i)=>{const x=-18.51+i/120*37.02;return g.deckY(x)-g.DECKT-g.coverTop(x);})),small:Math.min(...g.SMALL.map(a=>g.deckY(a.cx)-g.DECKT-(a.Cys+a.Rs+a.ringT)))},finite:coords.every(a=>Array.from(a.array).every(Number.isFinite)),geometry:{span:g.SPAN,rise:g.RISE,radius:g.R},drawCalls:renderer.info.render.calls};
       }
     };
     resize();setModel();const first=pose();camera.position.copy(first.pos);target.copy(first.aim);camera.lookAt(target);$('modelStatus').hidden=true;dirty=true;
@@ -362,7 +410,8 @@
   })().catch(fallback);
   window.bridgeApp={getState:()=>({...state,ready:!!viewer}),inspect:()=>viewer?.inspect()};
   function frame(now){const dt=Math.min(.06,(now-lastFrame)/1000);lastFrame=now;if(!document.hidden){
-    if(state.chapter===0)mapWashClock+=dt;
+    if(state.landing&&state.filmPlaying&&!$('sourcesDialog').open&&!state.reduce){state.filmTime=(state.filmTime+dt)%48;dirty=true;}
+    if(state.chapter===0&&!state.landing)mapWashClock+=dt;
     if(state.chapter===2&&state.running&&!state.conceptManual){const type=state.p<.25?'beam':state.p<.5?'multi':'single';if(type!==state.type){state.type=type;syncConceptLabels();for(const b of $('activity').querySelectorAll('[data-choice]'))b.setAttribute('aria-pressed',String(b.dataset.choice===type));dirty=true;}}
     if(state.running&&!$('sourcesDialog').open){state.p=Math.min(1,state.p+dt/(state.reduce?5:chapters[state.chapter].duration));dirty=true;if(state.p===1){if(state.continuous&&state.chapter<7)enter(state.chapter+1,0,true,true);else{state.running=false;state.continuous=false;if(state.chapter===7){state.free=true;viewer?.adoptCamera();}}}}
       syncOpeningLayers();drawMap(now);viewer?.render(now,dt);syncUI();

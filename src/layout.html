@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="从河北赵县的一段河流出发，逐步建构赵州桥。看地图、比较桥型、搭建28道拱券，再穿入结构理解敞肩与传力。">
+<meta name="description" content="一弧，跨千年。观看赵州桥营造动画，再从地图走到洨河，比较桥型、合拢28道拱券，穿入结构看懂敞肩与传力。">
 <link rel="icon" href="data:,">
-<title>懂了鸭 DEMO · 赵州桥，一弧跨千年</title>
+<title>赵州桥 · 一弧跨千年｜懂了鸭</title>
 <style>
 :root{color-scheme:light dark;--paper:#f2ede0;--ink:#32383a;--red:#b13a2c;--qing:#3d6c90;--lv:#4f8266;--zhe:#9c5a32;--muted:#71776f;--line:rgba(50,56,58,.24);--panel:rgba(242,237,224,.96);--grain-blend:multiply;--grain-opacity:.15}
 @media(prefers-color-scheme:dark){:root{--paper:#1a1e1d;--ink:#d6dcd6;--red:#e17f69;--qing:#88b3cc;--lv:#82b598;--zhe:#c99a71;--muted:#a2ada4;--line:rgba(214,220,214,.23);--panel:rgba(26,30,29,.96);--grain-blend:screen;--grain-opacity:.10}}
@@ -28,14 +28,25 @@ dialog{padding:0;width:min(680px,calc(100vw - 32px));max-height:83svh;border:1px
 @media(min-width:861px){#wrap{min-height:850px}.boundary-note{bottom:130px}.utility{bottom:93px}}
 @media(min-width:861px) and (max-height:849px){html,body{height:auto;overflow:auto}}
 @media(min-width:861px) and (max-height:850px){.boundary-note{bottom:120px}.utility{bottom:83px}}
+.landing .lesson,.landing .transport,.landing .chapters,.landing .utility,.landing .boundary-note{display:none}
+#landing{position:absolute;left:54px;right:54px;bottom:48px;z-index:5;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.landing-copy .eyebrow{font:9px/1.6 system-ui,sans-serif;color:var(--red);letter-spacing:.24em;margin:0 0 10px}
+.landing-copy h2{font-size:39px;line-height:1.35;font-weight:400;letter-spacing:.14em;margin:0 0 10px}
+.landing-copy>p:last-child{font-size:12px;color:var(--muted);letter-spacing:.12em;margin:0}
+.landing-actions{text-align:right}.landing-actions>button{min-width:180px;min-height:52px;color:var(--paper);border-color:var(--red);background:var(--red);font-size:14px;letter-spacing:.14em;padding:12px 23px}
+.film-controls{margin-top:12px;display:flex;justify-content:flex-end;gap:16px}.film-controls button{border:0;padding:0;min-height:28px;color:var(--muted);font-size:10px}
+.landing #stage{inset:121px 42px 191px;border:none}.landing .stage-caption{bottom:12px;background:transparent;border:none;color:var(--muted);font-size:11px;letter-spacing:.18em}
+.landing .scene-id{top:4px}.landing .scene-mode{top:4px}.landing .view-tip{display:none}
+.edition-actions{display:flex;gap:20px;align-items:center}.edition-actions #bLanding{color:var(--red)}.landing #bLanding{display:none}
+@media(max-width:860px){.landing #stage{inset:auto;margin-top:18px;height:clamp(340px,48svh,490px);min-height:340px}.landing #wrap{min-height:100svh}#landing{position:relative;inset:auto;order:2;display:block;margin:17px 2px 12px}.landing-copy h2{font-size:31px}.landing-copy>p:last-child{font-size:11px}.landing-actions{margin-top:26px;text-align:left}.landing-actions>button{width:100%;min-height:50px}.film-controls{justify-content:space-between;margin-top:9px}.edition-actions{gap:13px}.landing .stage-caption{font-size:9px;bottom:9px}}
 </style>
 </head>
 <body>
-<main id="wrap">
+<main id="wrap" class="landing">
   <header class="head"><span class="no">隋 · 开皇后期至大业初年　李春设计建造</span><h1>赵州桥</h1><p>一段河流，如何生出一座桥。</p></header>
-  <div class="edition"><span class="brand">懂了鸭 DEMO / 营造之理 · 001</span><button type="button" id="bSources">数据与来源 ↗</button></div>
+  <div class="edition"><span class="brand">懂了鸭 / 营造之理 · 001</span><div class="edition-actions"><button type="button" id="bLanding">回到开场</button><button type="button" id="bSources">数据与来源 ↗</button></div></div>
   <div class="frame" aria-hidden="true"></div><div class="big" aria-hidden="true">安濟橋</div>
-  <figure id="stage" class="map-mode" aria-label="从地图到赵州桥结构的交互舞台" aria-describedby="boundaryNote" style="margin-left:0;margin-right:0">
+  <figure id="stage" aria-label="赵州桥营造动画与结构导览" style="margin-left:0;margin-right:0">
     <canvas id="gl" tabindex="0" aria-label="赵州桥模型。拖动旋转、双指或滚轮缩放。方向键旋转，加减键缩放，Home回到整桥。"></canvas>
     <canvas id="ov" aria-hidden="true"></canvas><canvas id="mapCanvas" role="img" aria-label="现代位置图：中国、河北省、石家庄市、赵县，桥址位于洨河。"></canvas>
     <div id="conceptLabels" class="concept-labels" hidden aria-label="桥型概念对照">
@@ -47,12 +58,16 @@ dialog{padding:0;width:min(680px,calc(100vw - 32px));max-height:83svh;border:1px
     <figcaption class="stage-caption" id="stageCaption">从中国地图，找到河北赵县。</figcaption><span class="view-tip" id="viewTip">点击「开始导览」；也可在右侧逐级定位。</span>
     <div id="modelStatus" role="status">正在展开图卷…</div>
   </figure>
+  <section id="landing" aria-label="赵州桥开场">
+    <div class="landing-copy"><p class="eyebrow">赵州桥 · 隋 · 李春</p><h2>一弧，跨千年。</h2><p>从一块石，到一座桥。</p></div>
+    <div class="landing-actions"><button type="button" id="bStartTour">开始导览 <span aria-hidden="true">→</span></button><div class="film-controls"><button type="button" id="bFilmReplay">↺ 重播营造</button><button type="button" id="bFilmPause" aria-pressed="false">Ⅱ 暂停动画</button></div></div>
+  </section>
   <aside class="lesson" aria-label="本段讲解">
     <div class="lesson-top"><span>循着问题，看懂一座桥</span><b id="chapterCount">01 / 08</b></div>
     <p class="lesson-index" id="lessonIndex">第一章 · 地理</p><h2 id="lessonTitle">桥，先从一条河说起。</h2>
-    <p class="lesson-copy" id="lessonCopy">赵州桥在河北省石家庄市赵县，横跨洨河。先从地图找到它，再到河岸边，看一座桥要连接怎样的空间。</p>
+    <p class="lesson-copy" id="lessonCopy">河北，赵县，洨河。循着朱色桥址，从地图走到两岸之间。</p>
     <div class="metric" id="lessonMetrics"><div><strong>赵县</strong><span>河北省 · 石家庄市</span></div><div><strong>洨河</strong><span>赵州桥所跨河流</span></div></div>
-    <div class="activity" id="activity"></div><p class="source-mini" id="lessonSource">地点据赵县人民政府；现代行政区轮廓用于定位，不表示隋代边界。</p>
+    <div class="activity" id="activity"></div><p class="source-mini" id="lessonSource">赵县人民政府 · 桥址</p>
     <div class="observe-row"><button type="button" id="bReplay">↺ 重看本段</button><button type="button" id="bNext">走到河边 →</button></div>
   </aside>
   <div class="transport"><div class="transport-main"><button type="button" id="bPlay" aria-pressed="false">▶ 开始导览</button><button type="button" id="bPrev" aria-label="上一段">← 上一段</button></div><div class="progress"><label for="prog">本段进度</label><input type="range" id="prog" min="0" max="1000" value="0" aria-label="本段镜头与建构进度"><output id="rdProg" for="prog">0%</output></div></div>
@@ -60,7 +75,7 @@ dialog{padding:0;width:min(680px,calc(100vw - 32px));max-height:83svh;border:1px
     <button type="button" data-chapter="0" aria-current="step"><b>01</b><span>地理</span></button><button type="button" data-chapter="1"><b>02</b><span>跨河</span></button><button type="button" data-chapter="2"><b>03</b><span>选型</span></button><button type="button" data-chapter="3"><b>04</b><span>主拱</span></button><button type="button" data-chapter="4"><b>05</b><span>敞肩</span></button><button type="button" data-chapter="5"><b>06</b><span>传力</span></button><button type="button" data-chapter="6"><b>07</b><span>穿行</span></button><button type="button" data-chapter="7"><b>08</b><span>整桥</span></button>
   </nav>
   <div class="utility"><button type="button" id="bReset">复位整桥 ↗</button><details id="viewTools"><summary>观察工具 ＋</summary><div class="tools"><label for="cut">横向剖切 <output id="rdCut">未剖切</output></label><input type="range" id="cut" min="0" max="100" value="0" aria-label="剖切位置"><div class="choices"><button type="button" id="bWash" aria-pressed="true">褪去设色</button><button type="button" id="bNote" aria-pressed="true">结构注记</button><button type="button" id="bAuto" aria-pressed="false">缓慢环绕</button></div><p>拖动或缩放即暂停镜头，保留当前构造。点「继续导览」重新跟随。</p></div></details></div>
-  <p class="boundary-note" id="boundaryNote">现代地图用于定位；桥身、地景与建构次序为教学模型。尺寸注记区分公布值与示意，不作文物测绘复原。</p>
+  <p class="boundary-note" id="boundaryNote">隋 · 安济桥　｜　净跨 37.02 m · 拱矢 7.23 m · 28 道拱券</p>
 </main>
 <canvas id="grain" aria-hidden="true"></canvas>
 <!-- SOURCES_DIALOG -->
