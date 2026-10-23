@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 const root = __dirname;
 const read = name => fs.readFileSync(path.join(root, 'src', name), 'utf8');
 
@@ -55,6 +56,7 @@ const htmlText = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;')
 const player = read('player.js')
   .replace('/* ENGINE_GEOMETRY */', () => read('geometry.js'))
   .replace('/* MAP_DATA */', () => JSON.stringify(mapData));
+new vm.Script(player, { filename: 'bridge-player.js' });
 const html = read('layout.html')
   .replace('<!-- SOURCES_DIALOG -->', () => read('sources.html'))
   .replace('<!-- SCRIPTS -->', () => `<!--\n${read('vendor/THIRD_PARTY_NOTICES.md')}\n-->\n<template id="threeCore">${htmlText(core)}</template>\n<template id="threeRenderer">${htmlText(renderer)}</template>\n<script>${player}</script>`);
