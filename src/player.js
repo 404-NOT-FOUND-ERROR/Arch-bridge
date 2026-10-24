@@ -7,7 +7,7 @@
   const mapData=/* MAP_DATA */;
   const chapters=[
     {name:'地理',index:'第一章 · 沿图寻桥',title:'沿着地图，找到洨河。',copy:'河北，赵县，洨河。赵州桥就横跨在这里。循着朱色桥址，从中国地图走到河岸。',metrics:[['赵县','','河北省 · 石家庄市'],['洨河','','赵州桥所跨河流']],source:'赵县人民政府 · 桥址',next:'走到河边 →',duration:15},
-    {name:'跨河',index:'第二章 · 先有跨越',title:'让两岸，成为一条路。',copy:'路在两岸延伸，水从中间流过。桥要接通道路，也要为河流留下穿行的空间。',metrics:[['连接','','接通两岸道路'],['跨越','','留出桥下空间']],source:'跨河的两个条件 · 通行与过水',next:'比较桥型 →',duration:12},
+    {name:'跨河',index:'第二章 · 先有跨越',title:'让两岸，成为一条路。',copy:'路在两岸延伸，水从中间流过。桥要接通道路，也要为河流留下穿行的空间。',metrics:[['连接','','接通两岸道路'],['跨越','','留出桥下空间']],source:'跨河的两个条件 · 通行与过水',next:'比较桥型 →',duration:7},
     {name:'选型',index:'第三章 · 结构的选择',title:'跨度相同，传力不同。',copy:'梁直接跨越；多孔拱在河中分跨；单孔拱把荷载交给两岸。支点在哪里，决定了桥怎样跨河。',metrics:[['支点','','河中，或两岸'],['传力','','梁与拱，各有路径']],source:'桥型对照 · 梁 / 多孔拱 / 单孔拱',next:'开始建主拱 →',duration:13},
     {name:'主拱',index:'第四章 · 一弧跨河',title:'一道合拢，二十八道成拱。',copy:'券石从两端相向，在拱顶合拢。先成一道，再沿桥宽添齐二十八道，合成整座主拱。',metrics:[['37.02','m','主拱净跨'],['7.23','m','主拱拱矢']],source:'赵县人民政府 · 主拱尺寸与券道',next:'看桥肩留空 →',duration:22},
     {name:'敞肩',index:'第五章 · 肩上留空',title:'四孔小拱，打开桥肩。',copy:'主拱两端，各开两孔小拱。桥肩由实变空，减轻自重，也让洪水多一条通路。',metrics:[['3.81','m','外侧两孔 · 净跨'],['2.85','m','内侧两孔 · 跨度']],source:'赵县人民政府 · 小拱尺寸；ASCE · 敞肩作用',next:'跟随传力路径 →',duration:15},
@@ -269,7 +269,12 @@
       if(c===1){const t=state.reduce?1:smooth(state.p);pos=V(21,23,70).lerp(V(28,33,63),t);aim=V(0,-.7,0);}
       if(c===3){
         if(state.p<.32){const t=state.reduce?1:smooth(state.p/.32);pos=V(0,12,67).lerp(V(0,14,61),t);aim=V(0,3,-4.5);}
-        else{const turn=state.reduce?1:smooth((state.p-.32)/.13);pos=V(0,14,61).lerp(V(33,53,48),turn);aim=V(0,3,-4.5).lerp(V(0,4,0),turn);}
+        else if(state.p<.47){const turn=state.reduce?1:smooth((state.p-.32)/.15);pos=V(0,14,61).lerp(V(32,48,49),turn);aim=V(0,3,-4.5).lerp(V(0,4,0),turn);}
+        else{
+          const reveal=state.reduce?1:smooth((state.p-.47)/.38),settle=state.reduce?1:smooth((state.p-.88)/.12);
+          pos=V(32,48,49).lerp(V(48,42,20),reveal).lerp(V(37,51,52),settle);
+          aim=V(0,4,0);
+        }
       }
 
       if(c===2){const m=conceptMorph();pos.z+=14*(1-m);aim.y=2+2*m;}
